@@ -1,0 +1,74 @@
+---
+// Этот компонент ничего не рендерит на сервере,
+// вся его магия происходит на стороне клиента.
+---
+
+<script lang="ts">
+    const BOOKMARK_KEY = 'book-bookmark';
+
+    class ReadingProgress {
+        // Определяем, находимся ли мы на странице главы
+        isOnChapterPage: boolean = document.querySelector('article.prose') !== null;
+
+        constructor() {
+            if (this.isOnChapterPage) {
+                this.initTracker();
+            } else {
+                this.initDisplay();
+            }
+        }
+
+        // Логика для страницы главы
+        initTracker() {
+            const savedBookmark = JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '{}');
+            
+            // Если мы зашли на страницу, которая у нас в закладках, прокручиваем до нужного места
+            if (savedBookmark.path === window.location.pathname && savedBookmark.scroll) {
+                // Небольшая задержка, чтобы страница успела отрисоваться
+                setTimeout(() => window.scrollTo(0, savedBookmark.scroll), 100);
+            }
+
+            // Отслеживаем прокрутку и сохраняем прогресс
+            let scrollTimeout: number;
+            document.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = window.setTimeout(() => {
+                    const progress = {
+                        path: window.location.pathname,
+                        scroll: window.scrollY,
+                        // Сохраняем заголовок, чтобы показать его на странице оглавления
+                        title: document.querySelector('h1')?.innerText || '...'
+                    };
+                    localStorage.setItem(BOOKMARK_KEY, JSON.stringify(progress));
+                }, 100); // Сохраняем не чаще, чем раз в 100 мс
+            }, { passive: true });
+        }
+
+        // Логика для страницы оглавления
+        initDisplay() {
+            const savedBookmark = JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '{}');
+            if (!savedBookmark.path) return;
+
+            const container = document.querySelector('h1')?.parentElement;
+            if (!container) return;
+            
+            // Создаем и вставляем DOM-элемент с предложением продолжить чтение
+            const bookmarkElement = document.createElement('div');
+            bookmarkElement.className = 'bg-accent/20 border-l-4 border-accent p-4 my-6';
+            bookmarkElement.innerHTML = `
+                <h3 class="font-bold text-lg mb-2">Продолжить чтение</h3>
+                <a href="${savedBookmark.path}" class="text-secondary hover:text-primary font-semibold">
+                    ${savedBookmark.title}
+                </a>
+                <p class="text-sm text-ink/70 mt-1">Вы остановились здесь в прошлый раз.</p>
+            `;
+            // Вставляем элемент после заголовка H1
+            container.querySelector('h1')?.insertAdjacentElement('afterend', bookmarkElement);
+        }
+    }
+    
+    // Запускаем наш класс после загрузки страницы
+    document.addEventListener('astro:page-load', () => {
+        new ReadingProgress();
+    });
+</script>

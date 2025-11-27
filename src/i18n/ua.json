@@ -1,0 +1,6 @@
+{
+  "site.title": "Назва Книги",
+  "header.book_title": "Назва Книги",
+  "footer.copyright": "© {year} Ім'я Автора. Всі права захищені.",
+  "footer.made_with": "Сайт створено з ❤️ на Astro"
+}

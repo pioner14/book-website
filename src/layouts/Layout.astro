@@ -1,0 +1,52 @@
+---
+import '../styles/tailwind.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ReadingProgress from '../components/ReadingProgress.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const siteTitle = t('site.title');
+const pageDescription = description || 'Онлайн-версия книги ' + siteTitle;
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={pageDescription} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} | {siteTitle}</title>
+
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Georgia:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+	</head>
+	<body class="bg-paper text-ink font-body">
+		<Header lang={lang} />
+		<main class="container mx-auto px-4 py-8">
+			<slot />
+		</main>
+		<Footer lang={lang} />
+		<ReadingProgress />
+	</body>
+</html>
+
+<style is:global>
+	/* Стили для улучшения типографики */
+	h1, h2, h3, h4, h5, h6 {
+		font-family: 'Georgia', serif;
+	}
+</style>

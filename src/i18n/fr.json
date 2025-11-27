@@ -1,0 +1,6 @@
+{
+  "site.title": "Titre du Livre",
+  "header.book_title": "Titre du Livre",
+  "footer.copyright": "© {year} Nom de l'Auteur. Tous droits réservés.",
+  "footer.made_with": "Site créé avec ❤️ sur Astro"
+}
