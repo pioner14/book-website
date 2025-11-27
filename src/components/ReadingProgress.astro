@@ -3,12 +3,12 @@
 // вся его магия происходит на стороне клиента.
 ---
 
-<script lang="ts">
+<script is:inline>
     const BOOKMARK_KEY = 'book-bookmark';
 
     class ReadingProgress {
         // Определяем, находимся ли мы на странице главы
-        isOnChapterPage: boolean = document.querySelector('article.prose') !== null;
+        isOnChapterPage = document.querySelector('article.prose') !== null;
 
         constructor() {
             if (this.isOnChapterPage) {
@@ -29,7 +29,7 @@
             }
 
             // Отслеживаем прокрутку и сохраняем прогресс
-            let scrollTimeout: number;
+            let scrollTimeout;
             document.addEventListener('scroll', () => {
                 clearTimeout(scrollTimeout);
                 scrollTimeout = window.setTimeout(() => {

@@ -1,11 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { locales } from "astro:i18n";
 
 // Генерируем по одной странице для каждого языка: /ru, /ua, /fr
 export function getStaticPaths() {
-  return locales.map((lang) => ({ params: { lang } }));
+  return ['ru', 'ua', 'fr'].map((lang) => ({ params: { lang } }));
 }
 
 // Получаем текущий язык из URL
@@ -17,8 +16,8 @@ const allBookEntries = await getCollection('book');
 // 2. Фильтруем их, оставляя только те, что относятся к текущему языку
 // 3. Сортируем главы по номеру, указанному в frontmatter
 const chapters = allBookEntries
-  .filter(entry => entry.slug.startsWith(lang + '/'))
-  .sort((a, b) => a.data.chapter_number - b.data.chapter_number);
+  .filter(entry => entry.id.startsWith(lang + '/'))
+  .sort((a, b) => a.data.order - b.data.order);
 
 // Определяем заголовок в зависимости от языка
 const titles = {
@@ -36,7 +35,7 @@ const pageTitle = titles[lang as keyof typeof titles] || "Table of Contents";
     {chapters.length > 0 ? (
       <ol class="list-decimal list-inside space-y-4">
         {chapters.map(entry => {
-          const [_lang, slug] = entry.slug.split('/');
+          const [_lang, slug] = entry.id.split('/');
           return (
             <li class="text-xl">
               <a href={`/${lang}/${slug}`} class="font-sans hover:text-primary transition-colors">
