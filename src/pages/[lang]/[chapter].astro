@@ -1,0 +1,96 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+// Генерируем пути для всех глав: /ru/chapter1, /ua/chapter2 и т.д.
+export async function getStaticPaths() {
+  // Получаем все главы
+  const allChapters = await getCollection('book');
+  return allChapters.map(entry => {
+    const [lang, slug] = entry.slug.split('/');
+    return {
+      params: { lang, chapter: slug },
+      props: { entry },
+    };
+  });
+}
+
+interface Props {
+  entry: any; // Тип из getCollection
+}
+
+const { entry } = Astro.props;
+const { lang, chapter } = Astro.params;
+
+// Получаем переводы
+const t = useTranslations(lang as 'ru' | 'ua' | 'fr');
+
+// Получаем все главы для фильтрации
+const allChapters = await getCollection('book');
+
+// Фильтруем главы для текущего языка
+const langChapters = allChapters
+  .filter(ch => ch.slug.startsWith(lang + '/'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+// Находим текущую главу и соседние
+const currentIndex = langChapters.findIndex(ch => ch.slug === entry.slug);
+const prevChapter = currentIndex > 0 ? langChapters[currentIndex - 1] : null;
+const nextChapter = currentIndex < langChapters.length - 1 ? langChapters[currentIndex + 1] : null;
+
+// Заголовок страницы
+const pageTitle = entry.data.title;
+
+// Описание страницы
+const description = entry.data.description || `Глава ${entry.data.order}: ${entry.data.title}`;
+
+// Рендерим контент
+const { Content } = await entry.render();
+---
+
+<Layout title={pageTitle} description={description}>
+  <article class="prose prose-lg prose-headings:text-ink prose-headings:font-serif prose-p:text-ink prose-p:leading-relaxed prose-a:text-primary hover:prose-a:text-primary/80 max-w-3xl mx-auto">
+    <header class="mb-8 text-center">
+      <div class="flex justify-center mb-4">
+        <img src={`/chapter-${entry.data.order}.png`} alt={`Иллюстрация к главе ${entry.data.order}`} class="w-24 h-24 object-cover rounded-full shadow-md border-4 border-accent/30" onerror="this.style.display='none'" />
+      </div>
+      <h1 class="text-3xl font-heading font-bold mb-4 text-ink tracking-wide">{entry.data.title}</h1>
+      {entry.data.description && (
+        <p class="text-lg text-secondary">{entry.data.description}</p>
+      )}
+    </header>
+
+    <!-- Контент главы -->
+    <Content />
+
+    <!-- Навигация между главами -->
+    <nav class="flex justify-between items-center mt-12 pt-8 border-t border-ink/20">
+      {prevChapter ? (
+        <a href={`/${lang}/${prevChapter.slug.split('/')[1]}`} class="flex items-center text-primary hover:text-primary/80 transition-colors">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          <span class="font-medium">{prevChapter.data.title}</span>
+        </a>
+      ) : (
+        <div></div> <!-- Пустой элемент для выравнивания -->
+      )}
+
+      <a href={`/${lang}`} class="text-ink/70 hover:text-ink transition-colors font-medium">
+        {t('navigation.back_to_toc')}
+      </a>
+
+      {nextChapter ? (
+        <a href={`/${lang}/${nextChapter.slug.split('/')[1]}`} class="flex items-center text-primary hover:text-primary/80 transition-colors">
+          <span class="font-medium">{nextChapter.data.title}</span>
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      ) : (
+        <div></div> <!-- Пустой элемент для выравнивания -->
+      )}
+    </nav>
+  </article>
+</Layout>

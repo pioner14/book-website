@@ -1,6 +1,7 @@
 {
-  "site.title": "Назва Книги",
-  "header.book_title": "Назва Книги",
+  "site.title": "Оповідання маленької собачки на ім'я Фібі",
+  "header.book_title": "Оповідання маленької собачки на ім'я Фібі",
   "footer.copyright": "© {year} Ім'я Автора. Всі права захищені.",
-  "footer.made_with": "Сайт створено з ❤️ на Astro"
+  "footer.made_with": "Сайт створено з ❤️ на Astro",
+  "navigation.back_to_toc": "До змісту"
 }

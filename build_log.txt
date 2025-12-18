@@ -1,0 +1,27 @@
+
+> book-website@0.0.1 build
+> astro build
+
+13:21:06 [content] Syncing content
+13:21:06 [content] Synced content
+13:21:06 [types] Generated 356ms
+13:21:06 [build] output: "static"
+13:21:06 [build] mode: "static"
+13:21:06 [build] directory: /home/nick/Projects/book-website/dist/
+13:21:06 [build] Collecting build info...
+13:21:06 [build] ✓ Completed in 398ms.
+13:21:06 [build] Building static entrypoints...
+13:21:07 [ERROR] [vite] ✗ Build failed in 1.57s
+[@mdx-js/rollup] Could not parse import/exports with acorn
+file: /home/nick/Projects/book-website/src/content/book/ru/chapter1.mdx:8:2
+  Location:
+    /home/nick/Projects/book-website/src/content/book/ru/chapter1.mdx:8:2
+  Stack trace:
+    at Object.transform (file:///home/nick/Projects/book-website/node_modules/@astrojs/mdx/dist/vite-plugin-mdx.js:62:15)
+  Caused by:
+  Unexpected character ' '
+    at pp$4.raise (file:///home/nick/Projects/book-website/node_modules/acorn/dist/acorn.mjs:3731:13)
+    at pp.getTokenFromCode (file:///home/nick/Projects/book-website/node_modules/acorn/dist/acorn.mjs:5757:17)
+    at Parser.readToken (/home/nick/Projects/book-website/node_modules/acorn-jsx/index.js:469:20)
+    at pp.next (file:///home/nick/Projects/book-website/node_modules/acorn/dist/acorn.mjs:5399:8)
+    at pp$5.parseExprAtom (file:///home/nick/Projects/book-website/node_modules/acorn/dist/acorn.mjs:3014:17)

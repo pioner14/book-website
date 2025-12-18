@@ -1,5 +1,58 @@
 ---
-// Этот код выполняется на сервере.
-// Он отправляет HTTP-ответ с перенаправлением на указанный URL.
-return Astro.redirect('/ru');
+import Layout from '../layouts/Layout.astro';
+const pageTitle = "Рассказы маленькой собачки по имени Фиби";
 ---
+
+<Layout title={pageTitle}>
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <div class="text-center mb-12">
+      <img
+        src="/cover.jpg"
+        alt="Обложка книги 'Рассказы маленькой собачки по имени Фиби'"
+        class="mx-auto rounded-lg shadow-lg max-w-full h-auto"
+      />
+    </div>
+
+    <div class="prose prose-lg prose-ink mx-auto text-center">
+      <h1 class="text-3xl font-heading font-bold mb-8 text-ink">Кто такая Фиби?</h1>
+
+      <p class="mb-6 leading-relaxed">
+        Маленькая собачка по имени Фиби -
+        светлошерстный Английский Кокер - спаниель с
+        большими карими глазами, длинными кучерявыми
+        ушками и мокреньким носиком, который хочется
+        постоянно целовать.
+      </p>
+
+      <p class="mb-6 leading-relaxed">
+        Она обожает вкусно поесть, долго спать, играться,
+        плавать в океане, обниматься и путешествовать.
+      </p>
+
+      <p class="mb-8 leading-relaxed">
+        Зато не любит чистить
+        зубы, смотреть
+        телевизор или
+        телефон, оставаться
+        одна и - хуже всего -
+        не любит когда с ней
+        не делятся едой.
+      </p>
+
+      <p class="mb-8 leading-relaxed italic">
+        Если бы Фиби умела
+        говорить, она бы рассказала вам свои истории, но
+        так как она не умеет, я расскажу их вам за нее.
+      </p>
+
+      <div class="mt-12">
+        <a
+          href="/ru"
+          class="inline-block bg-primary hover:bg-primary/90 text-white font-medium py-3 px-8 rounded-lg transition-colors duration-300"
+        >
+          Начать читать историю
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

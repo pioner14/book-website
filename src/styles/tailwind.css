@@ -1,3 +1,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Улучшенная типографика для текста глав */
+.prose {
+  font-family: 'Merriweather', serif; /* Основной шрифт книги */
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.8; /* Увеличенный межстрочный интервал для лучшей читаемости */
+  max-width: 720px; /* Ограничение ширины строки для лучшей читаемости */
+  margin: 0 auto;
+}
+
+/* Стили для заголовков */
+.prose h1,
+.prose h2,
+.prose h3 {
+  font-family: 'Playfair Display', serif; /* Шрифт для заголовков */
+  font-weight: 700;
+}
+
+/* Стиль для заголовков глав внутри контента статей */
+article.prose h1 {
+  font-family: 'Pacifico', cursive;
+  font-weight: 700;
+}
+
+/* Улучшения для длинных абзацев */
+.prose :where(p):not(:where([class~="not-prose"] *)) {
+  hyphens: auto; /* Автоматические переносы */
+  -webkit-hypens: auto;
+}
+
+/* Улучшения для контента статьи */
+article {
+  font-family: 'Merriweather', serif; /* Основной шрифт для контента статьи */
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  -webkit-font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+}
+
+/* Убедимся, что bg-paper имеет высокий приоритет */
+.bg-paper {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(247 241 227 / var(--tw-bg-opacity, 1)) !important;
+}
+
+.text-ink {
+  --tw-text-opacity: 1 !important;
+  color: rgb(45 55 72 / var(--tw-text-opacity, 1)) !important;
+}
+

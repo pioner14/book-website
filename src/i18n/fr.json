@@ -1,6 +1,7 @@
 {
-  "site.title": "Titre du Livre",
-  "header.book_title": "Titre du Livre",
+  "site.title": "Contes de la Petite Chienne Appelée Phœbé",
+  "header.book_title": "Contes de la Petite Chienne Appelée Phœbé",
   "footer.copyright": "© {year} Nom de l'Auteur. Tous droits réservés.",
-  "footer.made_with": "Site créé avec ❤️ sur Astro"
+  "footer.made_with": "Site créé avec ❤️ sur Astro",
+  "navigation.back_to_toc": "À la table des matières"
 }

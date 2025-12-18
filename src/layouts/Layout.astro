@@ -29,24 +29,43 @@ const pageDescription = description || 'Онлайн-версия книги ' +
 		<meta name="generator" content={Astro.generator} />
 		<title>{title} | {siteTitle}</title>
 
+		<!-- Open Graph -->
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={pageDescription} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:site_name" content={siteTitle} />
+		<meta property="og:locale" content={lang} />
+
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={pageDescription} />
+
+		<!-- JSON-LD for Book -->
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "Book",
+			"name": siteTitle,
+			"author": {
+				"@type": "Person",
+				"name": "Имя Автора"
+			},
+			"inLanguage": lang,
+			"url": Astro.url.origin
+		})}></script>
+
 		<!-- Google Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Georgia:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 	</head>
-	<body class="bg-paper text-ink font-body">
+	<body class="bg-paper text-ink font-body transition-colors bg-body-pattern">
 		<Header lang={lang} />
-		<main class="container mx-auto px-4 py-8">
+		<main class="container mx-auto px-4 py-8 bg-parchment rounded-lg shadow-inner min-h-screen">
 			<slot />
 		</main>
 		<Footer lang={lang} />
 		<ReadingProgress />
 	</body>
 </html>
-
-<style is:global>
-	/* Стили для улучшения типографики */
-	h1, h2, h3, h4, h5, h6 {
-		font-family: 'Georgia', serif;
-	}
-</style>

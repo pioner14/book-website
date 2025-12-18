@@ -8,16 +8,16 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
-<header class="bg-ink text-paper shadow-md">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-        <a href={`/${lang}`} class="text-2xl font-sans font-bold text-paper hover:text-accent transition-colors">
+<header class="bg-parchment text-ink shadow-md border-b border-accent/20">
+    <div class="container mx-auto px-4 py-4 flex flex-col items-center">
+        <a href={`/${lang}`} class="text-2xl font-heading font-bold text-ink hover:text-accent transition-colors tracking-wide text-center mb-2">
             {t('header.book_title')}
         </a>
-        <nav>
-            <!-- Место для переключателя языков и ссылок -->
-            <a href="/ru" class:list={[{'font-bold text-accent': lang === 'ru'}, "p-2"]}>RU</a>
-            <a href="/ua" class:list={[{'font-bold text-accent': lang === 'ua'}, "p-2"]}>UA</a>
-            <a href="/fr" class:list={[{'font-bold text-accent': lang === 'fr'}, "p-2"]}>FR</a>
+        <nav class="flex items-center space-x-4">
+            <!-- Переключатель языков -->
+            <a href="/ru" class:list={[{'font-bold text-accent': lang === 'ru'}, "p-2 hover:text-accent transition-colors"]}>RU</a>
+            <a href="/ua" class:list={[{'font-bold text-accent': lang === 'ua'}, "p-2 hover:text-accent transition-colors"]}>UA</a>
+            <a href="/fr" class:list={[{'font-bold text-accent': lang === 'fr'}, "p-2 hover:text-accent transition-colors"]}>FR</a>
         </nav>
     </div>
 </header>

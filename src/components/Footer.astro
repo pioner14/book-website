@@ -10,8 +10,8 @@ const t = useTranslations(lang);
 
 const currentYear = new Date().getFullYear();
 ---
-<footer class="bg-paper mt-12">
-    <div class="container mx-auto px-4 py-6 text-center text-ink/70">
+<footer class="bg-paper mt-12 border-t border-accent/20">
+    <div class="container mx-auto px-4 py-6 text-center text-secondary">
         <p>{t('footer.copyright', { year: currentYear })}</p>
         <p>{t('footer.made_with')}</p>
     </div>

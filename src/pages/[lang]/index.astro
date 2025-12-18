@@ -16,7 +16,7 @@ const allBookEntries = await getCollection('book');
 // 2. Фильтруем их, оставляя только те, что относятся к текущему языку
 // 3. Сортируем главы по номеру, указанному в frontmatter
 const chapters = allBookEntries
-  .filter(entry => entry.id.startsWith(lang + '/'))
+  .filter(entry => entry.slug.startsWith(lang + '/'))
   .sort((a, b) => a.data.order - b.data.order);
 
 // Определяем заголовок в зависимости от языка
@@ -28,17 +28,17 @@ const titles = {
 const pageTitle = titles[lang as keyof typeof titles] || "Table of Contents";
 ---
 
-<Layout title={pageTitle + " | Название Книги"}>
+<Layout title={pageTitle + " | Рассказы_маленькой_собачки_по_имени_Фиби"}>
   <div class="max-w-3xl mx-auto">
-    <h1 class="text-4xl font-bold mb-8">{pageTitle}</h1>
+    <h1 class="text-4xl font-body font-bold mb-8 tracking-wide">{pageTitle}</h1>
 
     {chapters.length > 0 ? (
       <ol class="list-decimal list-inside space-y-4">
         {chapters.map(entry => {
-          const [_lang, slug] = entry.id.split('/');
+          const [_lang, slug] = entry.slug.split('/');
           return (
             <li class="text-xl">
-              <a href={`/${lang}/${slug}`} class="font-sans hover:text-primary transition-colors">
+              <a href={`/${lang}/${slug}`} class="font-sans hover:text-primary transition-colors block py-2">
                 {entry.data.title}
               </a>
               {entry.data.description && (
