@@ -29,6 +29,9 @@ article.prose h1 {
 .prose :where(p):not(:where([class~="not-prose"] *)) {
   hyphens: auto; /* Автоматические переносы */
   -webkit-hypens: auto;
+  text-indent: 2em; /* Красная строка */
+  margin-bottom: 0.5em; /* Небольшой отступ между абзацами */
+  line-height: 1.7; /* Улучшенный межстрочный интервал */
 }
 
 /* Улучшения для контента статьи */
