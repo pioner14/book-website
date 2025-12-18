@@ -1,17 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
 const pageTitle = "Рассказы маленькой собачки по имени Фиби";
-
-// Получаем русские главы для отображения оглавления на главной странице
-const allBookEntries = await getCollection('book');
-const chapters = allBookEntries
-  .filter(entry => entry.slug.startsWith('ru/'))
-  .sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Layout title={pageTitle} currentSlug={undefined}>
+<Layout title={pageTitle} currentSlug="main">
   <div class="max-w-4xl mx-auto px-4 py-8">
     <!-- Обложка -->
     <div id="cover" class="text-center mb-12">
@@ -54,39 +47,6 @@ const chapters = allBookEntries
         говорить, она бы рассказала вам свои истории, но
         так как она не умеет, я расскажу их вам за нее.
       </p>
-    </div>
-
-    <!-- Оглавление -->
-    <div id="toc" class="mb-16">
-      <h2 class="text-3xl font-body font-bold mb-8 text-ink text-center">Оглавление</h2>
-      {chapters.length > 0 ? (
-        <ol class="list-decimal list-inside space-y-4 max-w-2xl mx-auto">
-          {chapters.map(entry => {
-            const [_lang, slug] = entry.slug.split('/');
-            return (
-              <li class="text-xl">
-                <a href={`/ru/${slug}`} class="font-sans hover:text-primary transition-colors block py-2">
-                  {entry.data.title}
-                </a>
-                {entry.data.description && (
-                  <p class="text-sm text-ink/70 mt-1">{entry.data.description}</p>
-                )}
-              </li>
-            )
-          })}
-        </ol>
-      ) : (
-        <p class="text-center text-lg text-ink/70 py-10">
-          Главы еще не добавлены.
-        </p>
-      )}
-    </div>
-
-    <!-- Якорные ссылки для удобной навигации -->
-    <div class="flex justify-center space-x-6 my-8">
-      <a href="#cover" class="text-primary hover:text-primary/80 transition-colors">Обложка</a>
-      <a href="#introduction" class="text-primary hover:text-primary/80 transition-colors">Вступление</a>
-      <a href="#toc" class="text-primary hover:text-primary/80 transition-colors">Оглавление</a>
     </div>
   </div>
 </Layout>

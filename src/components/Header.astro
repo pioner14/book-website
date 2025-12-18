@@ -15,30 +15,9 @@ const t = useTranslations(lang);
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
-        <a href={`/${lang}`} class="text-3xl font-heading font-bold text-ink hover:text-accent transition-colors tracking-wide text-center flex-1 text-center">
+        <a href="/" class="text-3xl font-heading font-bold text-ink hover:text-accent transition-colors tracking-wide text-center flex-1 text-center">
             {t('header.book_title')}
         </a>
         <div class="w-6"></div> <!-- Пустой элемент для баланса с кнопкой меню -->
     </div>
 </header>
-
-<script>
-  // JavaScript для открытия боковой панели
-  document.addEventListener('DOMContentLoaded', function() {
-    const sidebar = document.getElementById('sidebar');
-    const openBtn = document.getElementById('open-sidebar');
-    const overlay = document.getElementById('overlay');
-
-    // Функция для открытия боковой панели
-    function openSidebar() {
-      sidebar.classList.remove('-translate-x-full');
-      overlay.classList.remove('hidden');
-      document.body.classList.add('overflow-hidden');
-    }
-
-    // Открытие боковой панели при клике на кнопку меню
-    if (openBtn) {
-      openBtn.addEventListener('click', openSidebar);
-    }
-  });
-</script>
