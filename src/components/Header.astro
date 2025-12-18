@@ -9,15 +9,36 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
 <header class="bg-parchment text-ink shadow-md border-b border-accent/20">
-    <div class="container mx-auto px-4 py-4 flex flex-col items-center">
-        <a href={`/${lang}`} class="text-2xl font-heading font-bold text-ink hover:text-accent transition-colors tracking-wide text-center mb-2">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <button id="open-sidebar" class="lg:hidden text-ink hover:text-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+        <a href={`/${lang}`} class="text-3xl font-heading font-bold text-ink hover:text-accent transition-colors tracking-wide text-center flex-1 text-center">
             {t('header.book_title')}
         </a>
-        <nav class="flex items-center space-x-4">
-            <!-- Переключатель языков -->
-            <a href="/ru" class:list={[{'font-bold text-accent': lang === 'ru'}, "p-2 hover:text-accent transition-colors"]}>RU</a>
-            <a href="/ua" class:list={[{'font-bold text-accent': lang === 'ua'}, "p-2 hover:text-accent transition-colors"]}>UA</a>
-            <a href="/fr" class:list={[{'font-bold text-accent': lang === 'fr'}, "p-2 hover:text-accent transition-colors"]}>FR</a>
-        </nav>
+        <div class="w-6"></div> <!-- Пустой элемент для баланса с кнопкой меню -->
     </div>
 </header>
+
+<script>
+  // JavaScript для открытия боковой панели
+  document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.getElementById('sidebar');
+    const openBtn = document.getElementById('open-sidebar');
+    const overlay = document.getElementById('overlay');
+
+    // Функция для открытия боковой панели
+    function openSidebar() {
+      sidebar.classList.remove('-translate-x-full');
+      overlay.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    // Открытие боковой панели при клике на кнопку меню
+    if (openBtn) {
+      openBtn.addEventListener('click', openSidebar);
+    }
+  });
+</script>

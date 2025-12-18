@@ -26,11 +26,19 @@ const titles = {
   fr: "Table des matières"
 }
 const pageTitle = titles[lang as keyof typeof titles] || "Table of Contents";
+
+// Определяем название книги в зависимости от языка
+const bookTitles = {
+  ru: "Рассказы маленькой собачки по имени Фиби",
+  ua: "Оповідання маленької собачки на ім'я Фібі",
+  fr: "Contes de la Petite Chienne Appelée Phœbé"
+};
+const bookTitle = bookTitles[lang as keyof typeof bookTitles] || bookTitles.ru;
 ---
 
-<Layout title={pageTitle + " | Рассказы_маленькой_собачки_по_имени_Фиби"}>
-  <div class="max-w-3xl mx-auto">
-    <h1 class="text-4xl font-body font-bold mb-8 tracking-wide">{pageTitle}</h1>
+<Layout title={pageTitle + " | " + bookTitle} currentSlug={`${lang}/`}>
+  <div class="max-w-3xl mx-auto px-4">
+    <h1 class="text-4xl font-body font-bold mb-8 tracking-wide text-center">{pageTitle}</h1>
 
     {chapters.length > 0 ? (
       <ol class="list-decimal list-inside space-y-4">
@@ -53,5 +61,14 @@ const pageTitle = titles[lang as keyof typeof titles] || "Table of Contents";
         Для этого языка главы еще не добавлены.
       </p>
     )}
+
+    <div class="mt-12 text-center">
+      <a
+        href="/"
+        class="inline-block bg-primary hover:bg-primary/90 text-white font-medium py-3 px-8 rounded-lg transition-colors duration-300"
+      >
+        Вернуться к обложке
+      </a>
+    </div>
   </div>
 </Layout>

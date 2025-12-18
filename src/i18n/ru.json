@@ -1,7 +1,7 @@
 {
   "site.title": "Рассказы маленькой собачки по имени Фиби",
   "header.book_title": "Рассказы маленькой собачки по имени Фиби",
-  "footer.copyright": "© {year} Имя Автора. Все права защищены.",
+  "footer.copyright": "© {year} София Ткач. Все права защищены.",
   "footer.made_with": "Сайт создан с ❤️ на Astro",
   "navigation.back_to_toc": "К оглавлению"
 }

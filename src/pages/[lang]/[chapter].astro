@@ -49,7 +49,7 @@ const description = entry.data.description || `Глава ${entry.data.order}: $
 const { Content } = await entry.render();
 ---
 
-<Layout title={pageTitle} description={description}>
+<Layout title={pageTitle} description={description} currentSlug={entry.slug}>
   <article class="prose prose-lg prose-headings:text-ink prose-headings:font-serif prose-p:text-ink prose-p:leading-relaxed prose-a:text-primary hover:prose-a:text-primary/80 max-w-3xl mx-auto">
     <header class="mb-8 text-center">
       <div class="flex justify-center mb-4">
@@ -67,24 +67,24 @@ const { Content } = await entry.render();
     <!-- Навигация между главами -->
     <nav class="flex justify-between items-center mt-12 pt-8 border-t border-ink/20">
       {prevChapter ? (
-        <a href={`/${lang}/${prevChapter.slug.split('/')[1]}`} class="flex items-center text-primary hover:text-primary/80 transition-colors">
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <a href={`/${lang}/${prevChapter.slug.split('/')[1]}`} class="bg-amber-500 hover:bg-amber-600 text-white !text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center">
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
           </svg>
-          <span class="font-medium">{prevChapter.data.title}</span>
+          <span>Глава {prevChapter.data.order}</span>
         </a>
       ) : (
         <div></div> <!-- Пустой элемент для выравнивания -->
       )}
 
-      <a href={`/${lang}`} class="text-ink/70 hover:text-ink transition-colors font-medium">
+      <a href={`/${lang}`} class="bg-blue-500 hover:bg-blue-600 text-white !text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
         {t('navigation.back_to_toc')}
       </a>
 
       {nextChapter ? (
-        <a href={`/${lang}/${nextChapter.slug.split('/')[1]}`} class="flex items-center text-primary hover:text-primary/80 transition-colors">
-          <span class="font-medium">{nextChapter.data.title}</span>
-          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <a href={`/${lang}/${nextChapter.slug.split('/')[1]}`} class="bg-amber-500 hover:bg-amber-600 text-white !text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center">
+          <span>Глава {nextChapter.data.order}</span>
+          <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
           </svg>
         </a>
