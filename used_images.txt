@@ -1,1 +1,0 @@
-grep -r "ChapterImage" /home/nick/Projects/book-website/src/content/book/ | grep -o '/chapter-images[^"]*'

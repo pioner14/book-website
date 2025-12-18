@@ -11,6 +11,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+*.log
+build_log.txt
+final_build_log.txt
+preview.log
+used_images.txt
+dev.log
+astro_output.log
 
 
 # environment variables
