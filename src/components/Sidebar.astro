@@ -1,6 +1,6 @@
 ---
-import { getCollection } from 'astro:content';
-import { getLangFromUrl } from '../i18n/utils';
+import { getCollection } from "astro:content";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
 interface Props {
   currentSlug?: string;
@@ -9,45 +9,68 @@ interface Props {
 const { currentSlug } = Astro.props;
 
 const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 // Получаем все главы для текущего языка
-const allChapters = await getCollection('book');
+const allChapters = await getCollection("book");
 const chapters = allChapters
-  .filter(entry => entry.slug.startsWith(lang + '/'))
+  .filter((entry) => entry.id.startsWith(lang + "/"))
   .sort((a, b) => a.data.order - b.data.order);
 ---
 
-<div id="sidebar" class="w-64 bg-parchment shadow-lg z-50 transform -translate-x-full transition-transform duration-300 ease-in-out fixed h-full lg:fixed lg:translate-x-0 lg:z-auto top-0">
+<div
+  id="sidebar"
+  class="w-64 bg-parchment shadow-lg z-50 transform -translate-x-full transition-transform duration-300 ease-in-out fixed h-full lg:fixed lg:translate-x-0 lg:z-auto top-0"
+>
   <div class="p-4 border-b border-accent/20 flex justify-between items-center">
-    <h2 class="text-xl font-bold text-ink">Оглавление</h2>
+    <h2 class="text-xl font-bold text-ink">{t("sidebar.toc")}</h2>
     <button id="close-sidebar" class="lg:hidden text-ink hover:text-primary">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"></path>
       </svg>
     </button>
   </div>
   <nav class="p-4 overflow-y-auto max-h-[calc(100vh-60px)]">
     <ul class="space-y-2">
-      {chapters.map(entry => {
-        const [_lang, slug] = entry.slug.split('/');
-        const isActive = currentSlug === entry.slug || (currentSlug === 'main' && false); // На главной странице нет активной главы
-        return (
-          <li>
-            <a
-              href={`/${lang}/${slug}`}
-              class={`block py-2 px-3 rounded transition-colors duration-200 text-sm ${
-                isActive
-                  ? 'bg-primary text-white'
-                  : 'text-ink hover:bg-primary/10 hover:text-primary'
-              }`}
-            >
-              <span class="font-medium">Глава {entry.data.order}:</span> {entry.data.title}
-            </a>
-          </li>
-        )
-      })}
+      {
+        chapters.map((entry) => {
+          const parts = entry.id.split("/");
+          const slug = parts[parts.length - 1]
+            .replace(/\.mdx$/, "")
+            .replace(/\.md$/, "");
+          const isActive = currentSlug === slug; // Сравниваем только слаг главы
+          return (
+            <li>
+              <a
+                href={`/${lang}/${slug}`}
+                class={`block py-2 px-3 rounded transition-colors duration-200 text-sm ${
+                  isActive
+                    ? "bg-primary text-white"
+                    : "text-ink hover:bg-primary/10 hover:text-primary"
+                }`}
+              >
+                <span class="font-medium">{entry.data.title}</span>
+              </a>
+            </li>
+          );
+        })
+      }
     </ul>
   </nav>
 </div>
 
-<div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden"></div>
+<div
+  id="overlay"
+  class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden"
+>
+</div>

@@ -1,7 +1,19 @@
 {
   "site.title": "Contes de la Petite Chienne Appelée Phœbé",
+  "site.author": "Sophia Tkach",
   "header.book_title": "Contes de la Petite Chienne Appelée Phœbé",
   "footer.copyright": "© {year} Sophia Tkach. Tous droits réservés.",
   "footer.made_with": "Site créé avec ❤️ sur Astro",
-  "navigation.back_to_toc": "À la table des matières"
+  "sidebar.toc": "Table des matières",
+  "chapter.label": "Chapitre",
+  "navigation.back_to_toc": "À la table des matières",
+  "navigation.back_to_home": "Accueil",
+  "reader.settings": "Paramètres de lecture",
+  "reader.font_size": "Taille de la police",
+  "reader.line_height": "Interligne",
+  "reader.theme": "Thème",
+  "reader.bookmark_save": "Enregistrer la position actuelle",
+  "reader.continue_reading": "Continuer la lecture",
+  "reader.bookmark_remove": "Supprimer le signet",
+  "reader.continue_from": "Continuer à partir de"
 }
