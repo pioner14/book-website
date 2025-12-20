@@ -4,21 +4,32 @@
 
 /* Модульная шкала для типографического ритма */
 :root {
-  --space-xs: 0.25rem;    /* 4px */
-  --space-sm: 0.5rem;     /* 8px */
-  --space-md: 1rem;       /* 16px */
-  --space-lg: 1.5rem;     /* 24px */
-  --space-xl: 2rem;       /* 32px */
-  --space-2xl: 3rem;      /* 48px */
-  --space-3xl: 4rem;      /* 64px */
+  --space-xs: 0.25rem;
+  /* 4px */
+  --space-sm: 0.5rem;
+  /* 8px */
+  --space-md: 1rem;
+  /* 16px */
+  --space-lg: 1.5rem;
+  /* 24px */
+  --space-xl: 2rem;
+  /* 32px */
+  --space-2xl: 3rem;
+  /* 48px */
+  --space-3xl: 4rem;
+  /* 64px */
 }
 
 /* Улучшенная типографика для текста глав */
 .prose {
-  font-family: 'Merriweather', serif; /* Основной шрифт книги */
-  font-size: clamp(1rem, 2.5vw, 1.125rem); /* Fluid размер шрифта */
-  line-height: clamp(1.5, 3vw, 1.7); /* Fluid межстрочный интервал */
-  max-width: clamp(45ch, 90vw, 70ch); /* Fluid ширина строки */
+  font-family: 'Merriweather', serif;
+  /* Основной шрифт книги */
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  /* Fluid размер шрифта */
+  line-height: clamp(1.5, 3vw, 1.7);
+  /* Fluid межстрочный интервал */
+  max-width: clamp(45ch, 90vw, 70ch);
+  /* Fluid ширина строки */
   margin: 0 auto;
 }
 
@@ -53,43 +64,63 @@ article.prose h1 {
   font-weight: 700;
 }
 
-/* Улучшения для длинных абзацев */
+/* Улучшения для длинных абзацев (Книжный стиль) */
 .prose :where(p):not(:where([class~="not-prose"] *)) {
-  hyphens: auto; /* Автоматические переносы */
+  hyphens: auto;
   -webkit-hyphens: auto;
-  text-indent: 1.5em; /* Умеренная красная строка */
-  margin-bottom: 1em; /* Правильный отступ между абзацами */
-  line-height: 1.5; /* Синхронизировано с основным */
-  orphans: 3; /* Минимум 3 строки в конце страницы */
-  widows: 3; /* Минимум 3 строки в начале страницы */
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  line-height: var(--reader-line-height, 1.6);
+  orphans: 3;
+  widows: 3;
+  text-align: justify;
 }
+
+/* Красная строка для всех абзацев */
+.prose :where(p):not(:where([class~="not-prose"] *)) {
+  text-indent: 1.5em;
+  hyphens: auto;
+}
+
+/* Первый абзац после заголовка или в начале статьи — без красной строки */
+.prose h1+p,
+.prose h2+p,
+.prose h3+p,
+.prose header+p,
+.prose .not-prose+p,
+.prose>p:first-of-type {
+  text-indent: 0 !important;
+}
+
+/* Оформление диалогов (строки, начинающиеся с длинного тире —) */
+.prose p {
+  position: relative;
+}
+
+/* Если параграф начинается с тире, мы можем применить специальный отступ или стиль */
+/* В MDX это обычно просто текст внутри <p> */
 
 /* Улучшения для контента статьи */
 article {
-  font-family: 'Merriweather', serif; /* Основной шрифт для контента статьи */
+  font-family: var(--reader-font-family, 'Merriweather', serif);
   font-feature-settings:
-    "kern" 1,     /* Кернинг */
-    "liga" 1,     /* Лигатуры */
-    "calt" 1,     /* Контекстные альтернативы */
-    "clig" 1,     /* Контекстные лигатуры */
-    "dlig" 1,     /* Дискреционные лигатуры */
-    "onum" 1,     /* Старый стиль цифр */
-    "pnum" 1,     /* Пропорциональные цифры */
-    "tnum" 0,     /* Табличные цифры отключены */
-    "lnum" 1;     /* Выравнивание по линии */
-  -webkit-font-feature-settings:
     "kern" 1,
     "liga" 1,
     "calt" 1,
-    "clig" 1,
-    "dlig" 1,
     "onum" 1,
-    "pnum" 1,
-    "tnum" 0,
-    "lnum" 1;
+    "pnum" 1;
   font-kerning: normal;
-  font-variant-ligatures: common-ligatures;
+  text-rendering: optimizeLegibility;
 }
+
+/* Дополнительный контейнер для настройки ширины текста */
+.reader-container {
+  max-width: var(--reader-max-width, 70ch);
+  margin-left: auto;
+  margin-right: auto;
+  transition: max-width 0.3s ease;
+}
+
 
 /* Умные кавычки для русского языка */
 .prose {
@@ -238,4 +269,3 @@ html[data-theme="dark"] .prose pre {
 [data-theme="light"] .prose h3 {
   color: rgb(45 55 72) !important;
 }
-

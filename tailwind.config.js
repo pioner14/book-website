@@ -29,7 +29,10 @@ export default {
       fontFamily: {
         body: ['Merriweather', 'serif'],
         heading: ['Pacifico', 'cursive'],
-        serif: ['Georgia', 'serif'],
+        serif: ['Merriweather', 'serif'],
+        lora: ['Lora', 'serif'],
+        garamond: ['EB Garamond', 'serif'],
+        'pt-serif': ['PT Serif', 'serif'],
         'heading-serif': ['Playfair Display', 'serif'],
       },
     },

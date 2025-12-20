@@ -60,7 +60,7 @@ const { Content } = await entry.render();
 ---
 
 <Layout title={pageTitle} description={description} currentSlug={getSlugFromId(entry.id)}>
-  <article class="prose prose-lg prose-headings:text-ink prose-headings:font-serif prose-p:text-ink prose-p:leading-relaxed prose-a:text-primary hover:prose-a:text-primary/80 max-w-3xl mx-auto">
+  <article class="prose prose-lg prose-headings:text-ink prose-headings:font-serif prose-p:text-ink prose-p:leading-relaxed prose-a:text-primary hover:prose-a:text-primary/80 reader-container" lang={lang}>
     <header class="mb-8 text-center">
       <h1 class="text-3xl font-heading font-bold mb-4 text-ink tracking-wide">{entry.data.title}</h1>
       {entry.data.description && (

@@ -73,6 +73,59 @@ const t = useTranslations(lang);
       >
     </div>
   </div>
+
+  <!-- Ширина текста -->
+  <div class="mb-3">
+    <label class="block text-xs text-gray-600 dark:text-gray-400 mb-1"
+      >{t("reader.width") || "Ширина"}</label
+    >
+    <div class="flex gap-2">
+      <button
+        class="width-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-width="narrow">{t("reader.width_narrow") || "Узкая"}</button
+      >
+      <button
+        class="width-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors active"
+        data-width="medium">{t("reader.width_medium") || "Средняя"}</button
+      >
+      <button
+        class="width-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-width="wide">{t("reader.width_wide") || "Широкая"}</button
+      >
+      <button
+        class="width-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-width="full">{t("reader.width_full") || "Полная"}</button
+      >
+    </div>
+  </div>
+
+  <!-- Шрифт -->
+  <div class="mb-0">
+    <label class="block text-xs text-gray-600 dark:text-gray-400 mb-1"
+      >{t("reader.font_family") || "Шрифт"}</label
+    >
+    <div class="grid grid-cols-2 gap-2">
+      <button
+        class="font-family-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded font-serif transition-colors active"
+        data-font="serif">Merriweather</button
+      >
+      <button
+        class="font-family-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-font="lora"
+        style="font-family: 'Lora', serif;">Lora</button
+      >
+      <button
+        class="font-family-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-font="garamond"
+        style="font-family: 'EB Garamond', serif;">Garamond</button
+      >
+      <button
+        class="font-family-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-font="pt-serif"
+        style="font-family: 'PT Serif', serif;">PT Serif</button
+      >
+    </div>
+  </div>
 </div>
 
 <!-- Кнопка открытия настроек -->
@@ -109,6 +162,8 @@ const t = useTranslations(lang);
       if (!this.preferences.theme) this.preferences.theme = "light";
       if (!this.preferences.fontSize) this.preferences.fontSize = "medium";
       if (!this.preferences.lineHeight) this.preferences.lineHeight = "normal";
+      if (!this.preferences.width) this.preferences.width = "medium";
+      if (!this.preferences.fontFamily) this.preferences.fontFamily = "serif";
 
       this.savePreferences();
       this.bindEvents();
@@ -165,6 +220,16 @@ const t = useTranslations(lang);
           selector: ".theme-btn",
           key: "theme",
           setter: this.setTheme.bind(this),
+        },
+        {
+          selector: ".width-btn",
+          key: "width",
+          setter: this.setWidth.bind(this),
+        },
+        {
+          selector: ".font-family-btn",
+          key: "font",
+          setter: this.setFontFamily.bind(this),
         },
       ];
 
@@ -253,11 +318,46 @@ const t = useTranslations(lang);
       document.dispatchEvent(new Event("themeChanged"));
     }
 
+    private setWidth(width: string) {
+      const widths: Record<string, string> = {
+        narrow: "60ch",
+        medium: "75ch",
+        wide: "90ch",
+        full: "100%",
+      };
+      document.documentElement.style.setProperty(
+        "--reader-max-width",
+        widths[width] || widths.medium,
+      );
+      this.preferences.width = width;
+      this.savePreferences();
+    }
+
+    private setFontFamily(font: string) {
+      const fonts: Record<string, string> = {
+        serif: "'Merriweather', serif",
+        lora: "'Lora', serif",
+        garamond: "'EB Garamond', serif",
+        "pt-serif": "'PT Serif', serif",
+        sans: "system-ui, -apple-system, sans-serif",
+      };
+      document.documentElement.style.setProperty(
+        "--reader-font-family",
+        fonts[font] || fonts.serif,
+      );
+      this.preferences.fontFamily = font;
+      this.savePreferences();
+    }
+
     private updateActiveButtons(selector: string, value: string) {
       document.querySelectorAll(selector).forEach((btn) => {
         const hBtn = btn as HTMLElement;
         const btnValue =
-          hBtn.dataset.size || hBtn.dataset.height || hBtn.dataset.theme;
+          hBtn.dataset.size ||
+          hBtn.dataset.height ||
+          hBtn.dataset.theme ||
+          hBtn.dataset.width ||
+          hBtn.dataset.font;
         if (btnValue === value) {
           hBtn.classList.add("active", "bg-primary", "text-white");
           hBtn.classList.remove(
@@ -281,6 +381,10 @@ const t = useTranslations(lang);
       this.updateActiveButtons(".line-height-btn", this.preferences.lineHeight);
       this.setTheme(this.preferences.theme);
       this.updateActiveButtons(".theme-btn", this.preferences.theme);
+      this.setWidth(this.preferences.width);
+      this.updateActiveButtons(".width-btn", this.preferences.width);
+      this.setFontFamily(this.preferences.fontFamily);
+      this.updateActiveButtons(".font-family-btn", this.preferences.fontFamily);
     }
 
     private loadPreferences() {
@@ -318,6 +422,13 @@ const t = useTranslations(lang);
   :root {
     --reader-font-size: 1.125rem;
     --reader-line-height: 1.6;
+    --reader-max-width: 75ch;
+    --reader-font-family: "Merriweather", serif;
+  }
+
+  article,
+  .prose {
+    font-family: var(--reader-font-family) !important;
   }
 
   .prose {
