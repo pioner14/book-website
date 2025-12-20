@@ -18,6 +18,16 @@
   /* 48px */
   --space-3xl: 4rem;
   /* 64px */
+  /* Цвета для навигации */
+  --color-nav-green: #e9f5db;
+  /* Очень мягкий зеленый */
+  --color-nav-green-hover: #cfe1b9;
+  --color-nav-green-text: #1b4332;
+
+  --color-nav-yellow: #fefae0;
+  /* Состаренная бумага */
+  --color-nav-yellow-hover: #faedcd;
+  --color-nav-yellow-text: #854d0e;
 }
 
 /* Улучшенная типографика для текста глав */

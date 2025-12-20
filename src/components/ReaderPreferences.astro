@@ -32,27 +32,6 @@ const t = useTranslations(lang);
     </div>
   </div>
 
-  <!-- Межстрочный интервал -->
-  <div class="mb-3">
-    <label class="block text-xs text-gray-600 dark:text-gray-400 mb-1"
-      >{t("reader.line_height")}</label
-    >
-    <div class="flex gap-2">
-      <button
-        class="line-height-btn px-3 py-1 text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
-        data-height="compact">1.4</button
-      >
-      <button
-        class="line-height-btn px-3 py-1 text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors active"
-        data-height="normal">1.5</button
-      >
-      <button
-        class="line-height-btn px-3 py-1 text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
-        data-height="relaxed">1.7</button
-      >
-    </div>
-  </div>
-
   <!-- Тема -->
   <div class="mb-3">
     <label class="block text-xs text-gray-600 dark:text-gray-400 mb-1"
@@ -161,7 +140,6 @@ const t = useTranslations(lang);
     private init() {
       if (!this.preferences.theme) this.preferences.theme = "light";
       if (!this.preferences.fontSize) this.preferences.fontSize = "medium";
-      if (!this.preferences.lineHeight) this.preferences.lineHeight = "normal";
       if (!this.preferences.width) this.preferences.width = "medium";
       if (!this.preferences.fontFamily) this.preferences.fontFamily = "serif";
 
@@ -210,11 +188,6 @@ const t = useTranslations(lang);
           selector: ".font-size-btn",
           key: "size",
           setter: this.setFontSize.bind(this),
-        },
-        {
-          selector: ".line-height-btn",
-          key: "height",
-          setter: this.setLineHeight.bind(this),
         },
         {
           selector: ".theme-btn",
@@ -284,20 +257,6 @@ const t = useTranslations(lang);
       this.savePreferences();
     }
 
-    private setLineHeight(height: string) {
-      const heights: Record<string, string> = {
-        compact: "1.4",
-        normal: "1.6",
-        relaxed: "1.8",
-      };
-      document.documentElement.style.setProperty(
-        "--reader-line-height",
-        heights[height] || heights.normal,
-      );
-      this.preferences.lineHeight = height;
-      this.savePreferences();
-    }
-
     private setTheme(theme: string) {
       const isAuto = theme === "auto";
       if (isAuto) {
@@ -354,7 +313,6 @@ const t = useTranslations(lang);
         const hBtn = btn as HTMLElement;
         const btnValue =
           hBtn.dataset.size ||
-          hBtn.dataset.height ||
           hBtn.dataset.theme ||
           hBtn.dataset.width ||
           hBtn.dataset.font;
@@ -377,8 +335,6 @@ const t = useTranslations(lang);
     private applyPreferences() {
       this.setFontSize(this.preferences.fontSize);
       this.updateActiveButtons(".font-size-btn", this.preferences.fontSize);
-      this.setLineHeight(this.preferences.lineHeight);
-      this.updateActiveButtons(".line-height-btn", this.preferences.lineHeight);
       this.setTheme(this.preferences.theme);
       this.updateActiveButtons(".theme-btn", this.preferences.theme);
       this.setWidth(this.preferences.width);
