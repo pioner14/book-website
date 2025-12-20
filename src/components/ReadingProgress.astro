@@ -1,14 +1,28 @@
 ---
-// Этот компонент ничего не рендерит на сервере,
-// вся его магия происходит на стороне клиента.
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
+<div
+    id="reading-progress-config"
+    data-t-bookmark-save={t("reader.bookmark_save")}
+    data-t-continue-reading={t("reader.continue_reading")}
+    data-t-bookmark-remove={t("reader.bookmark_remove")}
+    data-t-continue-from={t("reader.continue_from")}
+    class="hidden"
+>
+</div>
+
 <script is:inline>
-    const BOOKMARKS_KEY = 'book-bookmarks';
+    const BOOKMARKS_KEY = "book-bookmarks";
 
     class ReadingProgress {
         // Определяем, находимся ли мы на странице главы
-        isOnChapterPage = document.querySelector('article.prose') !== null;
+        isOnChapterPage = document.querySelector("article.prose") !== null;
+        config =
+            document.getElementById("reading-progress-config")?.dataset || {};
 
         constructor() {
             if (this.isOnChapterPage) {
@@ -25,12 +39,16 @@
 
             // Отслеживаем прокрутку и сохраняем прогресс
             let scrollTimeout;
-            document.addEventListener('scroll', () => {
-                clearTimeout(scrollTimeout);
-                scrollTimeout = window.setTimeout(() => {
-                    this.saveCurrentPosition();
-                }, 100); // Сохраняем не чаще, чем раз в 100 мс
-            }, { passive: true });
+            document.addEventListener(
+                "scroll",
+                () => {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = window.setTimeout(() => {
+                        this.saveCurrentPosition();
+                    }, 100); // Сохраняем не чаще, чем раз в 100 мс
+                },
+                { passive: true },
+            );
 
             // Добавляем кнопку для быстрой установки закладки
             this.addBookmarkButton();
@@ -43,7 +61,10 @@
 
             if (currentPageBookmark && currentPageBookmark.scroll) {
                 // Небольшая задержка, чтобы страница успела отрисоваться
-                setTimeout(() => window.scrollTo(0, currentPageBookmark.scroll), 100);
+                setTimeout(
+                    () => window.scrollTo(0, currentPageBookmark.scroll),
+                    100,
+                );
             }
         }
 
@@ -55,8 +76,8 @@
             bookmarks[currentPath] = {
                 path: currentPath,
                 scroll: window.scrollY,
-                title: document.querySelector('h1')?.innerText || '...',
-                timestamp: Date.now()
+                title: document.querySelector("h1")?.innerText || "...",
+                timestamp: Date.now(),
             };
 
             localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(bookmarks));
@@ -67,7 +88,7 @@
             try {
                 return JSON.parse(localStorage.getItem(BOOKMARKS_KEY)) || {};
             } catch (e) {
-                console.error('Error parsing bookmarks from localStorage', e);
+                console.error("Error parsing bookmarks from localStorage", e);
                 return {};
             }
         }
@@ -75,17 +96,19 @@
         // Добавление кнопки закладки
         addBookmarkButton() {
             // Создаем кнопку закладки
-            const bookmarkBtn = document.createElement('button');
-            bookmarkBtn.innerHTML = '🔖';
-            bookmarkBtn.title = 'Сохранить текущую позицию';
-            bookmarkBtn.className = 'fixed bottom-4 right-4 bg-accent text-white p-3 rounded-full shadow-lg hover:bg-primary cursor-pointer z-50';
-            bookmarkBtn.style.cssText = 'font-size: 1.5em; border: none;';
+            const bookmarkBtn = document.createElement("button");
+            bookmarkBtn.innerHTML = "🔖";
+            bookmarkBtn.title =
+                this.config.tBookmarkSave || "Сохранить текущую позицию";
+            bookmarkBtn.className =
+                "fixed bottom-4 right-4 bg-accent text-white p-3 rounded-full shadow-lg hover:bg-primary cursor-pointer z-50";
+            bookmarkBtn.style.cssText = "font-size: 1.5em; border: none;";
 
-            bookmarkBtn.addEventListener('click', () => {
+            bookmarkBtn.addEventListener("click", () => {
                 this.saveCurrentPosition();
                 // Краткая визуальная обратная связь
                 const originalText = bookmarkBtn.innerHTML;
-                bookmarkBtn.innerHTML = '✅';
+                bookmarkBtn.innerHTML = "✅";
                 setTimeout(() => {
                     bookmarkBtn.innerHTML = originalText;
                 }, 1000);
@@ -99,10 +122,10 @@
             const bookmarks = this.getBookmarks();
 
             // Показываем только закладки для текущего языка
-            const currentLang = window.location.pathname.split('/')[1] || 'ru';
+            const currentLang = window.location.pathname.split("/")[1] || "ru";
             const currentLangBookmarks = {};
 
-            Object.keys(bookmarks).forEach(path => {
+            Object.keys(bookmarks).forEach((path) => {
                 if (path.startsWith(`/${currentLang}/`)) {
                     currentLangBookmarks[path] = bookmarks[path];
                 }
@@ -111,49 +134,55 @@
             if (Object.keys(currentLangBookmarks).length === 0) return;
 
             // Сортируем закладки по времени последнего обновления
-            const sortedBookmarks = Object.values(currentLangBookmarks).sort((a, b) => b.timestamp - a.timestamp);
+            const sortedBookmarks = Object.values(currentLangBookmarks).sort(
+                (a, b) => b.timestamp - a.timestamp,
+            );
 
-            const container = document.querySelector('h1')?.parentElement;
+            const container = document.querySelector("h1")?.parentElement;
             if (!container) return;
 
             // Создаем и вставляем DOM-элемент с сохраненными позициями
-            const bookmarksContainer = document.createElement('div');
-            bookmarksContainer.className = 'bg-accent/20 border-l-4 border-accent p-4 my-6';
+            const bookmarksContainer = document.createElement("div");
+            bookmarksContainer.className =
+                "bg-accent/20 border-l-4 border-accent p-4 my-6";
 
-            const titleElement = document.createElement('h3');
-            titleElement.className = 'font-bold text-lg mb-2';
-            titleElement.textContent = 'Продолжить чтение';
+            const titleElement = document.createElement("h3");
+            titleElement.className = "font-bold text-lg mb-2";
+            titleElement.textContent =
+                this.config.tContinueReading || "Продолжить чтение";
             bookmarksContainer.appendChild(titleElement);
 
-            sortedBookmarks.forEach(bookmark => {
-                const bookmarkElement = document.createElement('div');
-                bookmarkElement.className = 'mb-2 last:mb-0';
+            sortedBookmarks.forEach((bookmark) => {
+                const bookmarkElement = document.createElement("div");
+                bookmarkElement.className = "mb-2 last:mb-0";
                 bookmarkElement.innerHTML = `
                     <div class="flex justify-between items-center">
                         <a href="${bookmark.path}" class="text-secondary hover:text-primary font-semibold flex-grow">
                             ${bookmark.title}
                         </a>
                         <button class="remove-bookmark-btn text-red-500 hover:text-red-700 text-sm ml-2"
-                                data-path="${bookmark.path}" title="Удалить закладку">
+                                data-path="${bookmark.path}" title="${this.config.tBookmarkRemove || "Удалить закладку"}">
                             ✕
                         </button>
                     </div>
-                    <p class="text-sm text-ink/70 mt-1">Продолжить с позиции ${Math.round(bookmark.scroll)}px</p>
+                    <p class="text-sm text-ink/70 mt-1">${this.config.tContinueFrom || "Продолжить с позиции"} ${Math.round(bookmark.scroll)}px</p>
                 `;
                 bookmarksContainer.appendChild(bookmarkElement);
             });
 
             // Добавляем обработчик для удаления закладок
-            bookmarksContainer.addEventListener('click', (e) => {
-                if (e.target.classList.contains('remove-bookmark-btn')) {
-                    const path = e.target.getAttribute('data-path');
+            bookmarksContainer.addEventListener("click", (e) => {
+                if (e.target.classList.contains("remove-bookmark-btn")) {
+                    const path = e.target.getAttribute("data-path");
                     this.removeBookmark(path);
-                    e.target.closest('div').remove(); // Удаляем элемент из DOM
+                    e.target.closest("div").remove(); // Удаляем элемент из DOM
                 }
             });
 
             // Вставляем элемент после заголовка H1
-            container.querySelector('h1')?.insertAdjacentElement('afterend', bookmarksContainer);
+            container
+                .querySelector("h1")
+                ?.insertAdjacentElement("afterend", bookmarksContainer);
         }
 
         // Удаление закладки
@@ -165,7 +194,7 @@
     }
 
     // Запускаем наш класс после загрузки страницы
-    document.addEventListener('astro:page-load', () => {
+    document.addEventListener("astro:page-load", () => {
         new ReadingProgress();
     });
 </script>

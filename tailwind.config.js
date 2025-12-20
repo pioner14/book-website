@@ -3,6 +3,7 @@ export default {
   content: [
     './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'
   ],
+  darkMode: 'selector',
   theme: {
     extend: {
       colors: {
@@ -28,7 +29,10 @@ export default {
       fontFamily: {
         body: ['Merriweather', 'serif'],
         heading: ['Pacifico', 'cursive'],
-        serif: ['Georgia', 'serif'],
+        serif: ['Merriweather', 'serif'],
+        lora: ['Lora', 'serif'],
+        garamond: ['EB Garamond', 'serif'],
+        'pt-serif': ['PT Serif', 'serif'],
         'heading-serif': ['Playfair Display', 'serif'],
       },
     },

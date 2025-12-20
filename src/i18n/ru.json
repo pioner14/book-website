@@ -1,7 +1,25 @@
 {
   "site.title": "Рассказы маленькой собачки по имени Фиби",
+  "site.author": "София Ткач",
   "header.book_title": "Рассказы маленькой собачки по имени Фиби",
   "footer.copyright": "© {year} София Ткач. Все права защищены.",
   "footer.made_with": "Сайт создан с ❤️ на Astro",
-  "navigation.back_to_toc": "К оглавлению"
+  "sidebar.toc": "Оглавление",
+  "chapter.label": "Глава",
+  "navigation.back_to_toc": "К оглавлению",
+  "navigation.back_to_home": "На главную",
+  "reader.settings": "Настройки чтения",
+  "reader.font_size": "Размер шрифта",
+  "reader.line_height": "Интервал",
+  "reader.theme": "Тема",
+  "reader.width": "Ширина текста",
+  "reader.width_narrow": "Узкая",
+  "reader.width_medium": "Средняя",
+  "reader.width_wide": "Широкая",
+  "reader.width_full": "Полная",
+  "reader.font_family": "Шрифт",
+  "reader.bookmark_save": "Сохранить текущую позицию",
+  "reader.continue_reading": "Продолжить чтение",
+  "reader.bookmark_remove": "Удалить закладку",
+  "reader.continue_from": "Продолжить с позиции"
 }

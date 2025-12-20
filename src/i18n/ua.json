@@ -1,7 +1,25 @@
 {
   "site.title": "Оповідання маленької собачки на ім'я Фібі",
+  "site.author": "Софія Ткач",
   "header.book_title": "Оповідання маленької собачки на ім'я Фібі",
   "footer.copyright": "© {year} Софія Ткач. Всі права захищені.",
   "footer.made_with": "Сайт створено з ❤️ на Astro",
-  "navigation.back_to_toc": "До змісту"
+  "sidebar.toc": "Зміст",
+  "chapter.label": "Розділ",
+  "navigation.back_to_toc": "До змісту",
+  "navigation.back_to_home": "На головну",
+  "reader.settings": "Налаштування читання",
+  "reader.font_size": "Розмір шрифту",
+  "reader.line_height": "Інтервал",
+  "reader.theme": "Тема",
+  "reader.width": "Ширина тексту",
+  "reader.width_narrow": "Вузька",
+  "reader.width_medium": "Середня",
+  "reader.width_wide": "Широка",
+  "reader.width_full": "Повна",
+  "reader.font_family": "Шрифт",
+  "reader.bookmark_save": "Зберегти поточну позицію",
+  "reader.continue_reading": "Продовжити читання",
+  "reader.bookmark_remove": "Видалити закладку",
+  "reader.continue_from": "Продовжити з позиції"
 }

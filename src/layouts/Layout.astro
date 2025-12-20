@@ -1,15 +1,16 @@
 ---
-import '../styles/tailwind.css';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import ReadingProgress from '../components/ReadingProgress.astro';
-import Sidebar from '../components/Sidebar.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import "../styles/tailwind.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ReadingProgress from "../components/ReadingProgress.astro";
+import ReaderPreferences from "../components/ReaderPreferences.astro";
+import Sidebar from "../components/Sidebar.astro";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
 interface Props {
-	title: string;
-	description?: string;
-	currentSlug?: string;
+  title: string;
+  description?: string;
+  currentSlug?: string;
 }
 
 const { title, description, currentSlug } = Astro.props;
@@ -17,133 +18,178 @@ const { title, description, currentSlug } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const siteTitle = t('site.title');
-const pageDescription = description || 'Онлайн-версия книги ' + siteTitle;
+const siteTitle = t("site.title");
+const pageDescription = description || "Онлайн-версия книги " + siteTitle;
 ---
 
 <!doctype html>
 <html lang={lang}>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content={pageDescription} />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title} | {siteTitle}</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={pageDescription} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} | {siteTitle}</title>
 
-		<!-- Open Graph -->
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={pageDescription} />
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content={Astro.url} />
-		<meta property="og:site_name" content={siteTitle} />
-		<meta property="og:locale" content={lang} />
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:site_name" content={siteTitle} />
+    <meta property="og:locale" content={lang} />
 
-		<!-- Twitter -->
-		<meta name="twitter:card" content="summary" />
-		<meta name="twitter:title" content={title} />
-		<meta name="twitter:description" content={pageDescription} />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={pageDescription} />
 
-		<!-- JSON-LD for Book -->
-		<script type="application/ld+json" set:html={JSON.stringify({
-			"@context": "https://schema.org",
-			"@type": "Book",
-			"name": siteTitle,
-			"author": {
-				"@type": "Person",
-				"name": "Имя Автора"
-			},
-			"inLanguage": lang,
-			"url": Astro.url.origin
-		})}></script>
+    <!-- JSON-LD for Book -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Book",
+        name: siteTitle,
+        author: {
+          "@type": "Person",
+          name: t("site.author"),
+        },
+        inLanguage: lang,
+        url: Astro.url.origin,
+      })}
+    />
 
-		<!-- Google Fonts -->
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-	</head>
-	<body class="bg-paper text-ink font-body transition-colors bg-body-pattern overflow-x-hidden relative">
-		<Header lang={lang} />
-		<div class="flex min-h-screen">
-			{currentSlug && <Sidebar currentSlug={currentSlug} />}
-			{!currentSlug && <Sidebar currentSlug="main" />}
-			<main class={currentSlug
-      ? "container mx-auto px-4 py-8 bg-parchment rounded-lg shadow-inner min-h-screen flex-1 w-full ml-0 lg:ml-64"
-      : "container mx-auto px-4 py-8 bg-parchment rounded-lg shadow-inner min-h-screen"}>
-				<slot />
-			</main>
-		</div>
-		<Footer lang={lang} />
-		<ReadingProgress />
-
-		{currentSlug && currentSlug !== 'main' && (
-      <a
-        href={`/${lang}`}
-        class="fixed bottom-6 right-6 bg-primary hover:bg-primary/90 text-white p-3 rounded-full shadow-lg z-50 transition-opacity duration-300 lg:hidden"
-        title="К оглавлению"
-        id="toc-floating-btn"
+    <!-- Google Fonts с оптимизацией загрузки -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Pacifico&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Lora:ital,wght@0,400..700;1,400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Pacifico&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Lora:ital,wght@0,400..700;1,400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      media="print"
+      onload="this.media='all'; this.onload=null;"
+    />
+  </head>
+  <body
+    class="bg-paper text-ink font-body transition-colors bg-body-pattern overflow-x-hidden relative"
+    data-current-slug={currentSlug || ""}
+  >
+    <Header lang={lang} />
+    <div class="flex min-h-screen">
+      {currentSlug && <Sidebar currentSlug={currentSlug} />}
+      {!currentSlug && <Sidebar currentSlug="main" />}
+      <main
+        class={currentSlug
+          ? "container mx-auto px-4 py-8 bg-parchment rounded-lg shadow-inner min-h-screen flex-1 w-full ml-0 lg:ml-64"
+          : "container mx-auto px-4 py-8 bg-parchment rounded-lg shadow-inner min-h-screen"}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </a>
-    )}
+        <slot />
+      </main>
+    </div>
+    <Footer lang={lang} />
+    <ReadingProgress />
+    <ReaderPreferences />
 
-    {!currentSlug && (
-      <a
-        href="/"
-        class="fixed bottom-6 right-6 bg-primary hover:bg-primary/90 text-white p-3 rounded-full shadow-lg z-50 transition-opacity duration-300 lg:hidden"
-        title="На главную"
-        id="home-floating-btn"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
-      </a>
-    )}
+    {
+      currentSlug && currentSlug !== "main" && (
+        <a
+          href={`/${lang}`}
+          class="fixed bottom-6 right-6 bg-primary hover:bg-primary/90 text-white p-3 rounded-full shadow-lg z-50 transition-opacity duration-300 lg:hidden"
+          title={t("sidebar.toc")}
+          id="toc-floating-btn"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </a>
+      )
+    }
+
+    {
+      !currentSlug && (
+        <a
+          href="/"
+          class="fixed bottom-6 right-6 bg-primary hover:bg-primary/90 text-white p-3 rounded-full shadow-lg z-50 transition-opacity duration-300 lg:hidden"
+          title={t("navigation.back_to_home")}
+          id="home-floating-btn"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+            />
+          </svg>
+        </a>
+      )
+    }
 
     <script>
       // Централизованное управление боковой панелью
-      document.addEventListener('DOMContentLoaded', function() {
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const openBtn = document.getElementById('open-sidebar');
-        const closeBtn = document.getElementById('close-sidebar');
-        const tocFloatingBtn = document.getElementById('toc-floating-btn');
-        const homeFloatingBtn = document.getElementById('home-floating-btn');
+      document.addEventListener("DOMContentLoaded", function () {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("overlay");
+        const openBtn = document.getElementById("open-sidebar");
+        const closeBtn = document.getElementById("close-sidebar");
+        const tocFloatingBtn = document.getElementById("toc-floating-btn");
+        const homeFloatingBtn = document.getElementById("home-floating-btn");
 
         // Функция для открытия боковой панели
         function openSidebar() {
-          sidebar.classList.remove('-translate-x-full');
-          overlay.classList.remove('hidden');
-          document.body.classList.add('overflow-hidden');
+          sidebar.classList.remove("-translate-x-full");
+          overlay.classList.remove("hidden");
+          document.body.classList.add("overflow-hidden");
         }
 
         // Функция для закрытия боковой панели
         function closeSidebar() {
-          sidebar.classList.add('-translate-x-full');
-          overlay.classList.add('hidden');
-          document.body.classList.remove('overflow-hidden');
+          sidebar.classList.add("-translate-x-full");
+          overlay.classList.add("hidden");
+          document.body.classList.remove("overflow-hidden");
         }
 
         // Закрытие боковой панели при клике на оверлей
         if (overlay) {
-          overlay.addEventListener('click', closeSidebar);
+          overlay.addEventListener("click", closeSidebar);
         }
 
         // Закрытие боковой панели при клике на крестик
         if (closeBtn) {
-          closeBtn.addEventListener('click', closeSidebar);
+          closeBtn.addEventListener("click", closeSidebar);
         }
 
         // Открытие боковой панели при клике на кнопку в шапке
         if (openBtn) {
-          openBtn.addEventListener('click', openSidebar);
+          openBtn.addEventListener("click", openSidebar);
         }
 
         // Открытие боковой панели при клике на плавающую кнопку
         if (tocFloatingBtn) {
-          tocFloatingBtn.addEventListener('click', function(e) {
+          tocFloatingBtn.addEventListener("click", function (e) {
             e.preventDefault();
             openSidebar();
           });
@@ -151,12 +197,12 @@ const pageDescription = description || 'Онлайн-версия книги ' +
 
         // Открытие боковой панели при клике на плавающую кнопку главной страницы
         if (homeFloatingBtn) {
-          homeFloatingBtn.addEventListener('click', function(e) {
+          homeFloatingBtn.addEventListener("click", function (e) {
             e.preventDefault();
             openSidebar();
           });
         }
       });
     </script>
-	</body>
+  </body>
 </html>

@@ -1,0 +1,457 @@
+---
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div
+  id="reader-preferences"
+  class="fixed bottom-1/2 right-4 translate-y-1/2 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 z-50 opacity-0 pointer-events-none transition-all duration-300 transform translate-x-2"
+>
+  <h3 class="text-sm font-medium mb-3">{t("reader.settings")}</h3>
+
+  <!-- Размер шрифта -->
+  <div class="mb-3">
+    <label class="block text-xs text-gray-600 dark:text-gray-400 mb-1"
+      >{t("reader.font_size")}</label
+    >
+    <div class="flex gap-2">
+      <button
+        class="font-size-btn px-3 py-1 text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-size="small">A</button
+      >
+      <button
+        class="font-size-btn px-3 py-1 text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors active"
+        data-size="medium">A</button
+      >
+      <button
+        class="font-size-btn px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-size="large">A</button
+      >
+    </div>
+  </div>
+
+  <!-- Тема -->
+  <div class="mb-3">
+    <label class="block text-xs text-gray-600 dark:text-gray-400 mb-1"
+      >{t("reader.theme")}</label
+    >
+    <div class="flex gap-2">
+      <button
+        class="theme-btn px-3 py-1 text-xs bg-amber-100 hover:bg-amber-200 text-gray-900 rounded transition-colors active"
+        data-theme="light">☀️</button
+      >
+      <button
+        class="theme-btn px-3 py-1 text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-theme="dark">🌙</button
+      >
+      <button
+        class="theme-btn px-3 py-1 text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-theme="auto">⚙️</button
+      >
+    </div>
+  </div>
+
+  <!-- Ширина текста -->
+  <div class="mb-3">
+    <label class="block text-xs text-gray-600 dark:text-gray-400 mb-1"
+      >{t("reader.width") || "Ширина"}</label
+    >
+    <div class="flex gap-2">
+      <button
+        class="width-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-width="narrow">{t("reader.width_narrow") || "Узкая"}</button
+      >
+      <button
+        class="width-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors active"
+        data-width="medium">{t("reader.width_medium") || "Средняя"}</button
+      >
+      <button
+        class="width-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-width="wide">{t("reader.width_wide") || "Широкая"}</button
+      >
+      <button
+        class="width-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-width="full">{t("reader.width_full") || "Полная"}</button
+      >
+    </div>
+  </div>
+
+  <!-- Шрифт -->
+  <div class="mb-0">
+    <label class="block text-xs text-gray-600 dark:text-gray-400 mb-1"
+      >{t("reader.font_family") || "Шрифт"}</label
+    >
+    <div class="grid grid-cols-2 gap-2">
+      <button
+        class="font-family-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded font-serif transition-colors active"
+        data-font="serif">Merriweather</button
+      >
+      <button
+        class="font-family-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-font="lora"
+        style="font-family: 'Lora', serif;">Lora</button
+      >
+      <button
+        class="font-family-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-font="garamond"
+        style="font-family: 'EB Garamond', serif;">Garamond</button
+      >
+      <button
+        class="font-family-btn px-2 py-1 text-[10px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded transition-colors"
+        data-font="pt-serif"
+        style="font-family: 'PT Serif', serif;">PT Serif</button
+      >
+    </div>
+  </div>
+</div>
+
+<!-- Кнопка открытия настроек -->
+<button
+  id="toggle-preferences"
+  class="fixed bottom-1/2 right-4 translate-y-1/2 bg-primary hover:bg-primary/90 text-white p-3 rounded-full shadow-lg z-[110] transition-all duration-300"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-5 w-5"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"
+    ></path>
+  </svg>
+</button>
+
+<script>
+  class ReaderPrefs {
+    private preferences: any;
+
+    constructor() {
+      this.preferences = this.loadPreferences();
+      this.init();
+    }
+
+    private init() {
+      if (!this.preferences.theme) this.preferences.theme = "light";
+      if (!this.preferences.fontSize) this.preferences.fontSize = "medium";
+      if (!this.preferences.width) this.preferences.width = "medium";
+      if (!this.preferences.fontFamily) this.preferences.fontFamily = "serif";
+
+      this.savePreferences();
+      this.bindEvents();
+      this.applyPreferences();
+    }
+
+    private bindEvents() {
+      const toggleBtn = document.getElementById("toggle-preferences");
+      const panel = document.getElementById("reader-preferences");
+
+      if (toggleBtn && panel) {
+        toggleBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const isHidden = panel.classList.contains("opacity-0");
+          isHidden ? this.showPanel() : this.hidePanel();
+        });
+
+        document.addEventListener("click", (e) => {
+          if (
+            !panel.classList.contains("opacity-0") &&
+            !panel.contains(e.target as Node) &&
+            !toggleBtn.contains(e.target as Node)
+          ) {
+            this.hidePanel();
+          }
+        });
+
+        let scrollTimeout: any;
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (!panel.classList.contains("opacity-0")) {
+              clearTimeout(scrollTimeout);
+              scrollTimeout = setTimeout(() => this.hidePanel(), 150);
+            }
+          },
+          { passive: true },
+        );
+      }
+
+      const buttons = [
+        {
+          selector: ".font-size-btn",
+          key: "size",
+          setter: this.setFontSize.bind(this),
+        },
+        {
+          selector: ".theme-btn",
+          key: "theme",
+          setter: this.setTheme.bind(this),
+        },
+        {
+          selector: ".width-btn",
+          key: "width",
+          setter: this.setWidth.bind(this),
+        },
+        {
+          selector: ".font-family-btn",
+          key: "font",
+          setter: this.setFontFamily.bind(this),
+        },
+      ];
+
+      buttons.forEach(({ selector, key, setter }) => {
+        document.querySelectorAll(selector).forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            const val = (e.currentTarget as HTMLElement).dataset[key];
+            if (val) {
+              setter(val);
+              this.updateActiveButtons(selector, val);
+            }
+          });
+        });
+      });
+    }
+
+    private showPanel() {
+      const panel = document.getElementById("reader-preferences");
+      if (panel) {
+        panel.classList.remove(
+          "opacity-0",
+          "pointer-events-none",
+          "translate-x-2",
+        );
+        panel.classList.add("opacity-100", "pointer-events-auto");
+      }
+    }
+
+    private hidePanel() {
+      const panel = document.getElementById("reader-preferences");
+      if (panel) {
+        panel.classList.add(
+          "opacity-0",
+          "pointer-events-none",
+          "translate-x-2",
+        );
+        panel.classList.remove("opacity-100", "pointer-events-auto");
+      }
+    }
+
+    private setFontSize(size: string) {
+      const sizes: Record<string, string> = {
+        small: "0.9375rem",
+        medium: "1.125rem",
+        large: "1.25rem",
+      };
+      document.documentElement.style.setProperty(
+        "--reader-font-size",
+        sizes[size] || sizes.medium,
+      );
+      this.preferences.fontSize = size;
+      this.savePreferences();
+    }
+
+    private setTheme(theme: string) {
+      const isAuto = theme === "auto";
+      if (isAuto) {
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        document.documentElement.setAttribute(
+          "data-theme",
+          prefersDark ? "dark" : "light",
+        );
+        document.documentElement.classList.toggle("dark", prefersDark);
+      } else {
+        document.documentElement.setAttribute("data-theme", theme);
+        document.documentElement.classList.toggle("dark", theme === "dark");
+      }
+      this.preferences.theme = theme;
+      this.savePreferences();
+      document.dispatchEvent(new Event("themeChanged"));
+    }
+
+    private setWidth(width: string) {
+      const widths: Record<string, string> = {
+        narrow: "60ch",
+        medium: "75ch",
+        wide: "90ch",
+        full: "100%",
+      };
+      document.documentElement.style.setProperty(
+        "--reader-max-width",
+        widths[width] || widths.medium,
+      );
+      this.preferences.width = width;
+      this.savePreferences();
+    }
+
+    private setFontFamily(font: string) {
+      const fonts: Record<string, string> = {
+        serif: "'Merriweather', serif",
+        lora: "'Lora', serif",
+        garamond: "'EB Garamond', serif",
+        "pt-serif": "'PT Serif', serif",
+        sans: "system-ui, -apple-system, sans-serif",
+      };
+      document.documentElement.style.setProperty(
+        "--reader-font-family",
+        fonts[font] || fonts.serif,
+      );
+      this.preferences.fontFamily = font;
+      this.savePreferences();
+    }
+
+    private updateActiveButtons(selector: string, value: string) {
+      document.querySelectorAll(selector).forEach((btn) => {
+        const hBtn = btn as HTMLElement;
+        const btnValue =
+          hBtn.dataset.size ||
+          hBtn.dataset.theme ||
+          hBtn.dataset.width ||
+          hBtn.dataset.font;
+        if (btnValue === value) {
+          hBtn.classList.add("active", "bg-primary", "text-white");
+          hBtn.classList.remove(
+            "bg-gray-100",
+            "dark:bg-gray-700",
+            "bg-amber-100",
+          );
+        } else {
+          hBtn.classList.remove("active", "bg-primary", "text-white");
+          hBtn.dataset.theme === "light"
+            ? hBtn.classList.add("bg-amber-100")
+            : hBtn.classList.add("bg-gray-100", "dark:bg-gray-700");
+        }
+      });
+    }
+
+    private applyPreferences() {
+      this.setFontSize(this.preferences.fontSize);
+      this.updateActiveButtons(".font-size-btn", this.preferences.fontSize);
+      this.setTheme(this.preferences.theme);
+      this.updateActiveButtons(".theme-btn", this.preferences.theme);
+      this.setWidth(this.preferences.width);
+      this.updateActiveButtons(".width-btn", this.preferences.width);
+      this.setFontFamily(this.preferences.fontFamily);
+      this.updateActiveButtons(".font-family-btn", this.preferences.fontFamily);
+    }
+
+    private loadPreferences() {
+      try {
+        return JSON.parse(localStorage.getItem("reader-preferences") || "{}");
+      } catch {
+        return {};
+      }
+    }
+
+    private savePreferences() {
+      localStorage.setItem(
+        "reader-preferences",
+        JSON.stringify(this.preferences),
+      );
+    }
+  }
+
+  function initPreferences() {
+    new ReaderPrefs();
+  }
+
+  // Универсальная инициализация
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPreferences);
+  } else {
+    initPreferences();
+  }
+
+  // Поддержка View Transitions
+  document.addEventListener("astro:page-load", initPreferences);
+</script>
+
+<style is:global>
+  :root {
+    --reader-font-size: 1.125rem;
+    --reader-line-height: 1.6;
+    --reader-max-width: 75ch;
+    --reader-font-family: "Merriweather", serif;
+  }
+
+  article,
+  .prose {
+    font-family: var(--reader-font-family) !important;
+  }
+
+  .prose {
+    font-size: var(--reader-font-size) !important;
+    line-height: var(--reader-line-height) !important;
+  }
+
+  .font-size-btn.active,
+  .line-height-btn.active,
+  .theme-btn.active {
+    background-color: #4a5568 !important;
+    color: white !important;
+  }
+
+  /* ТЕМНАЯ ТЕМА - МАКСИМАЛЬНЫЙ КОНТРАСТ */
+  html.dark body {
+    background-color: #0f172a !important; /* Очень темный синий */
+    color: #f1f5f9 !important; /* Почти белый */
+  }
+
+  html.dark .bg-paper {
+    background-color: #0f172a !important;
+  }
+  html.dark .bg-parchment {
+    background-color: #1e293b !important;
+  }
+
+  html.dark .text-ink,
+  html.dark .prose,
+  html.dark .prose :where(p, h1, h2, h3, li, strong, blockquote) {
+    color: #f1f5f9 !important;
+  }
+
+  html.dark .text-secondary {
+    color: #94a3b8 !important;
+  }
+
+  html.dark #reader-preferences {
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+    color: #f1f5f9 !important;
+  }
+
+  html.dark #reader-preferences label {
+    color: #cbd5e1 !important;
+  }
+
+  html.dark .bg-body-pattern {
+    background-image: none !important;
+  }
+
+  /* Исправляем z-index для панели настроек */
+  #reader-preferences {
+    z-index: 100 !important;
+  }
+
+  /* Прячем кнопку, когда панель открыта на маленьких экранах или смещаем её */
+  #reader-preferences:not(.opacity-0) + #toggle-preferences {
+    transform: translateY(50%) translateX(-320px);
+    opacity: 0.5;
+  }
+
+  /* Для мобильных устройств можно совсем прятать или выносить выше */
+  @media (max-width: 640px) {
+    #reader-preferences:not(.opacity-0) + #toggle-preferences {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+</style>
