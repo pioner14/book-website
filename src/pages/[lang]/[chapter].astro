@@ -74,7 +74,7 @@ const { Content } = await entry.render();
     <!-- Навигация между главами -->
     <nav class="flex justify-between items-center mt-12 pt-8 border-t border-ink/20">
       {prevChapter ? (
-        <a href={`/${lang}/${getSlugFromId(prevChapter.id)}`} class="bg-[#fefae0] hover:bg-[#faedcd] text-[#854d0e] font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center border border-[#e9edc9]">
+        <a href={`/${lang}/${getSlugFromId(prevChapter.id)}`} class="bg-[#fefae0] hover:bg-[#faedcd] text-[#854d0e] dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-blue-300 dark:border-slate-600 font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center border border-[#e9edc9]">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
           </svg>
@@ -84,12 +84,12 @@ const { Content } = await entry.render();
         <div></div> <!-- Пустой элемент для выравнивания -->
       )}
 
-      <a href={`/${lang}`} class="bg-[#e9f5db] hover:bg-[#cfe1b9] text-[#1b4332] font-medium py-2 px-4 rounded-lg transition-colors duration-300 text-center border border-[#d4e09b]">
+      <a href={`/${lang}`} class="bg-[#e9f5db] hover:bg-[#cfe1b9] text-[#1b4332] dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-emerald-300 dark:border-slate-600 font-medium py-2 px-4 rounded-lg transition-colors duration-300 text-center border border-[#d4e09b]">
         {t('navigation.back_to_toc')}
       </a>
 
       {nextChapter ? (
-        <a href={`/${lang}/${getSlugFromId(nextChapter.id)}`} class="bg-[#fefae0] hover:bg-[#faedcd] text-[#854d0e] font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center border border-[#e9edc9]">
+        <a href={`/${lang}/${getSlugFromId(nextChapter.id)}`} class="bg-[#fefae0] hover:bg-[#faedcd] text-[#854d0e] dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-blue-300 dark:border-slate-600 font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center border border-[#e9edc9]">
           <span class="flex-1 text-center">{t('chapter.label')} {nextChapter.data.order}</span>
           <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
