@@ -1,8 +1,8 @@
 ---
-import { useTranslations } from '../i18n/utils';
+import { useTranslations } from "../i18n/utils";
 
 interface Props {
-  lang: 'ru' | 'ua' | 'fr';
+    lang: "ru" | "ua" | "fr";
 }
 
 const { lang } = Astro.props;
@@ -10,15 +10,50 @@ const t = useTranslations(lang);
 
 const currentYear = new Date().getFullYear();
 ---
+
 <footer class="bg-paper mt-12 border-t border-accent/20">
     <div class="container mx-auto px-4 py-6 text-center text-secondary">
-        <p>{t('footer.copyright', { year: currentYear })}</p>
+        <p>{t("footer.copyright", { year: currentYear })}</p>
         <div class="flex justify-center space-x-4 my-2">
             <!-- Переключатель языков -->
-            <a href="/ru" class:list={[{'font-bold text-accent': lang === 'ru'}, "p-2 hover:text-accent transition-colors"]}>RU</a>
-            <a href="/ua" class:list={[{'font-bold text-accent': lang === 'ua'}, "p-2 hover:text-accent transition-colors"]}>UA</a>
-            <a href="/fr" class:list={[{'font-bold text-accent': lang === 'fr'}, "p-2 hover:text-accent transition-colors"]}>FR</a>
+            <a
+                href="/ru"
+                data-lang="ru"
+                class:list={[
+                    { "font-bold text-accent": lang === "ru" },
+                    "lang-switch p-2 hover:text-accent transition-colors",
+                ]}>RU</a
+            >
+            <a
+                href="/ua"
+                data-lang="ua"
+                class:list={[
+                    { "font-bold text-accent": lang === "ua" },
+                    "lang-switch p-2 hover:text-accent transition-colors",
+                ]}>UA</a
+            >
+            <a
+                href="/fr"
+                data-lang="fr"
+                class:list={[
+                    { "font-bold text-accent": lang === "fr" },
+                    "lang-switch p-2 hover:text-accent transition-colors",
+                ]}>FR</a
+            >
         </div>
-        <p>{t('footer.made_with')}</p>
+        <p>{t("footer.made_with")}</p>
     </div>
 </footer>
+
+<script>
+    // Сохраняем выбор языка при клике
+    const links = document.querySelectorAll("a.lang-switch");
+    links.forEach((link) => {
+        link.addEventListener("click", () => {
+            const lang = link.getAttribute("data-lang");
+            if (lang) {
+                localStorage.setItem("language", lang);
+            }
+        });
+    });
+</script>
