@@ -34,6 +34,38 @@ const bookTitles = {
   fr: "Contes de la Petite Chienne Appelée Phœbé",
 };
 const bookTitle = bookTitles[lang as keyof typeof bookTitles] || bookTitles.ru;
+
+// Вступление для каждого языка
+const introductions = {
+  ru: {
+    title: "Кто такая Фиби?",
+    paragraphs: [
+      "Маленькая собачка по имени Фиби - светлошерстный Английский Кокер - спаниель с большими карими глазами, длинными кучерявыми ушками и мокреньким носиком, который хочется постоянно целовать.",
+      "Она обожает вкусно поесть, долго спать, играться, плавать в океане, обниматься и путешествовать.",
+      "Зато не любит чистить зубы, смотреть телевизор или телефон, оставаться одна и - хуже всего - не любит когда с ней не делятся едой.",
+      "Если бы Фиби умела говорить, она бы рассказала вам свои истории, но так как она не умеет, я расскажу их вам за нее.",
+    ],
+  },
+  ua: {
+    title: "Познайомся з Фібі",
+    paragraphs: [
+      "Маленька собачка на ім’я Фібі — це світлошерстий англійський кокер-спанієль із великими добрими очима, кучерявими довгими вушками та маленьким носиком, який так і хочеться постійно цілувати.",
+      "Фібі любить усе, що робить життя веселим і затишним: смачно поїсти, довгі сонні ранки, біганину на траві, ігри, купання в океані, обійматися та подорожувати.",
+      "А от чого вона зовсім не любить — так це чистити зуби, дивитися телевізор, залишатися сама і, найголовніше, коли хтось їсть щось смачненьке без неї.",
+      "Якби Фібі могла розмовляти, вона б із радістю поділилася своїми пригодами. Але поки що вона лише махає хвостиком, тому всі її історії розповім вам я.",
+    ],
+  },
+  fr: {
+    title: "Qui est Phibie ?",
+    paragraphs: [
+      "La petite chienne qui s’appelle Phibie est une cocker anglaise au pelage clair, avec de grands yeux marron, de longues oreilles bouclées et un petit nez tout humide qu’on a envie d’embrasser sans arrêt.",
+      "Elle adore bien manger, faire de longues siestes, jouer, nager dans l’océan, faire des câlins et voyager.",
+      "En revanche, elle n’aime pas se brosser les dents, regarder la télévision ou le téléphone, rester toute seule et — pire que tout — elle déteste quand on ne partage pas la nourriture avec elle.",
+      "Si Phibie savait parler, elle vous raconterait elle-même toutes ses histoires, mais comme elle ne peut pas, je les raconterai pour elle.",
+    ],
+  },
+};
+const intro = introductions[lang as keyof typeof introductions];
 ---
 
 <Layout title={pageTitle + " | " + bookTitle} currentSlug={`${lang}/`}>
@@ -41,6 +73,31 @@ const bookTitle = bookTitles[lang as keyof typeof bookTitles] || bookTitles.ru;
     <h1 class="text-4xl font-body font-bold mb-8 tracking-wide text-center">
       {pageTitle}
     </h1>
+
+    {/* Обложка */}
+    <div id="cover" class="text-center mb-12">
+      <img
+        src="/cover.jpg"
+        alt={bookTitle}
+        class="mx-auto rounded-lg shadow-lg max-w-full h-auto"
+      />
+    </div>
+
+    {
+      intro && (
+        <div
+          id="introduction"
+          class="prose prose-lg prose-ink mx-auto text-center mb-16 px-4"
+        >
+          <h2 class="text-3xl font-body font-bold mb-8 text-ink">
+            {intro.title}
+          </h2>
+          {intro.paragraphs.map((p) => (
+            <p class="mb-6 leading-relaxed">{p}</p>
+          ))}
+        </div>
+      )
+    }
 
     {
       chapters.length > 0 ? (
@@ -70,14 +127,5 @@ const bookTitle = bookTitles[lang as keyof typeof bookTitles] || bookTitles.ru;
         </p>
       )
     }
-
-    <div class="mt-12 text-center">
-      <a
-        href="/"
-        class="inline-block bg-primary hover:bg-primary/90 text-white font-medium py-3 px-8 rounded-lg transition-colors duration-300"
-      >
-        Вернуться к обложке
-      </a>
-    </div>
   </div>
 </Layout>
