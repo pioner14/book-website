@@ -11,13 +11,11 @@ export function getStaticPaths() {
 const { lang } = Astro.params;
 
 // 1. Получаем все главы из коллекции
-const allBookEntries = await getCollection("book");
+// 1. Получаем все главы из коллекции (для сайдбара они уже есть в Layout)
+// Нам они здесь больше не нужны для отображения списка
 
 // 2. Фильтруем их, оставляя только те, что относятся к текущему языку
 // 3. Сортируем главы по номеру, указанному в frontmatter
-const chapters = allBookEntries
-  .filter((entry) => entry.slug.startsWith(lang + "/"))
-  .sort((a, b) => a.data.order - b.data.order);
 
 // Определяем заголовок в зависимости от языка
 const titles = {
@@ -96,35 +94,6 @@ const intro = introductions[lang as keyof typeof introductions];
             <p class="mb-6 leading-relaxed">{p}</p>
           ))}
         </div>
-      )
-    }
-
-    {
-      chapters.length > 0 ? (
-        <ol class="list-decimal list-inside space-y-4">
-          {chapters.map((entry) => {
-            const [_lang, slug] = entry.slug.split("/");
-            return (
-              <li class="text-xl">
-                <a
-                  href={`/${lang}/${slug}`}
-                  class="font-sans hover:text-primary transition-colors block py-2"
-                >
-                  {entry.data.title}
-                </a>
-                {entry.data.description && (
-                  <p class="text-sm text-secondary dark:text-gray-400 mt-1">
-                    {entry.data.description}
-                  </p>
-                )}
-              </li>
-            );
-          })}
-        </ol>
-      ) : (
-        <p class="text-center text-lg text-ink/70 py-10">
-          Для этого языка главы еще не добавлены.
-        </p>
       )
     }
   </div>
