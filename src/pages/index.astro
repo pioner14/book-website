@@ -1,52 +1,46 @@
 ---
-import Layout from '../layouts/Layout.astro';
-
-const pageTitle = "Рассказы маленькой собачки по имени Фиби";
+// Главная страница теперь служит только для перенаправления
+// Контент перенесен в src/pages/[lang]/index.astro
 ---
 
-<Layout title={pageTitle} currentSlug="main">
-  <div class="max-w-4xl mx-auto px-4 py-8">
-    <!-- Обложка -->
-    <div id="cover" class="text-center mb-12">
-      <img
-        src="/cover.jpg"
-        alt="Обложка книги 'Рассказы маленькой собачки по имени Фиби'"
-        class="mx-auto rounded-lg shadow-lg max-w-full h-auto"
-      />
-    </div>
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Redirecting...</title>
+    <script is:inline>
+      (function () {
+        // Проверяем сохраненный язык
+        var savedLang = localStorage.getItem("language");
+        if (savedLang && ["ru", "ua", "fr"].includes(savedLang)) {
+          window.location.replace("/" + savedLang + "/");
+          return;
+        }
 
-    <!-- Вступление -->
-    <div id="introduction" class="prose prose-lg prose-ink mx-auto text-center mb-16">
-      <h1 class="text-3xl font-body font-bold mb-8 text-ink">Кто такая Фиби?</h1>
-
-      <p class="mb-6 leading-relaxed">
-        Маленькая собачка по имени Фиби -
-        светлошерстный Английский Кокер - спаниель с
-        большими карими глазами, длинными кучерявыми
-        ушками и мокреньким носиком, который хочется
-        постоянно целовать.
-      </p>
-
-      <p class="mb-6 leading-relaxed">
-        Она обожает вкусно поесть, долго спать, играться,
-        плавать в океане, обниматься и путешествовать.
-      </p>
-
-      <p class="mb-8 leading-relaxed">
-        Зато не любит чистить
-        зубы, смотреть
-        телевизор или
-        телефон, оставаться
-        одна и - хуже всего -
-        не любит когда с ней
-        не делятся едой.
-      </p>
-
-      <p class="mb-8 leading-relaxed italic">
-        Если бы Фиби умела
-        говорить, она бы рассказала вам свои истории, но
-        так как она не умеет, я расскажу их вам за нее.
-      </p>
-    </div>
-  </div>
-</Layout>
+        // Проверяем язык браузера
+        var userLang = navigator.language || navigator.userLanguage;
+        if (userLang) {
+          userLang = userLang.toLowerCase();
+          if (userLang.startsWith("uk") || userLang.startsWith("ua")) {
+            window.location.replace("/ua/");
+          } else if (userLang.startsWith("fr")) {
+            window.location.replace("/fr/");
+          } else {
+            window.location.replace("/ru/");
+          }
+        } else {
+          // По умолчанию
+          window.location.replace("/ru/");
+        }
+      })();
+    </script>
+    <meta http-equiv="refresh" content="0;url=/ru/" />
+  </head>
+  <body>
+    <p>
+      Если перенаправление не произошло автоматически, пожалуйста, перейдите по
+      <a href="/ru/">этой ссылке</a>.
+    </p>
+  </body>
+</html>
