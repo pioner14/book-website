@@ -21,5 +21,6 @@
   "reader.bookmark_save": "Зберегти поточну позицію",
   "reader.continue_reading": "Продовжити читання",
   "reader.bookmark_remove": "Видалити закладку",
-  "reader.continue_from": "Продовжити з позиції"
+  "reader.continue_from": "Продовжити з позиції",
+  "header.install_pwa": "Завантажити для читання офлайн"
 }

@@ -21,5 +21,6 @@
   "reader.bookmark_save": "Сохранить текущую позицию",
   "reader.continue_reading": "Продолжить чтение",
   "reader.bookmark_remove": "Удалить закладку",
-  "reader.continue_from": "Продолжить с позиции"
+  "reader.continue_from": "Продолжить с позиции",
+  "header.install_pwa": "Скачать для чтения оффлайн"
 }

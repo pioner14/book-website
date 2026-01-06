@@ -182,10 +182,10 @@ article {
   width: 0.5em;
 }
 
-/* Убедимся, что bg-paper имеет высокий приоритет */
+/* Убедимся, что bg-paper имеет высокий приоритет и является белым по умолчанию */
 .bg-paper {
   --tw-bg-opacity: 1 !important;
-  background-color: rgb(247 241 227 / var(--tw-bg-opacity, 1)) !important;
+  background-color: #ffffff !important;
 }
 
 .text-ink {
@@ -247,36 +247,42 @@ html[data-theme="dark"] .prose h3 {
   color: rgb(255 255 255) !important;
 }
 
-/* Максимально специфичные правила для темной темы - в конце файла для приоритета */
+/* Темная тема - Высокий приоритет */
+html.dark .bg-paper,
+html[data-theme="dark"] .bg-paper,
+html.dark .bg-parchment,
+html[data-theme="dark"] .bg-parchment {
+  background-color: #0f172a !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark body,
 html[data-theme="dark"] body {
-  background-color: rgb(17 24 39) !important;
-  color: rgb(243 244 246) !important;
+  background-color: #0f172a !important;
+  color: #f1f5f9 !important;
 }
 
-html[data-theme="dark"] article,
-html[data-theme="dark"] article *,
-html[data-theme="dark"] article p,
-html[data-theme="dark"] article li,
-html[data-theme="dark"] article span,
-html[data-theme="dark"] article div,
-html[data-theme="dark"] article blockquote,
-html[data-theme="dark"] article code,
-html[data-theme="dark"] article pre,
+html.dark .prose,
 html[data-theme="dark"] .prose,
-html[data-theme="dark"] .prose *,
-html[data-theme="dark"] .prose p,
-html[data-theme="dark"] .prose li,
-html[data-theme="dark"] .prose span,
-html[data-theme="dark"] .prose div,
-html[data-theme="dark"] .prose blockquote,
-html[data-theme="dark"] .prose code,
-html[data-theme="dark"] .prose pre {
-  color: rgb(243 244 246) !important;
+html.dark .prose *,
+html[data-theme="dark"] .prose * {
+  color: #f1f5f9 !important;
 }
 
-/* Светлая тема принудительно */
+/* Явное исправление цвета текста для оглавления */
+html.dark .text-ink,
+html[data-theme="dark"] .text-ink {
+  color: #f1f5f9 !important;
+}
+
+html.dark .text-secondary,
+html[data-theme="dark"] .text-secondary {
+  color: #94a3b8 !important;
+}
+
+/* Светлая тема принудительно — теперь белый */
 [data-theme="light"] .bg-paper {
-  background-color: rgb(247 241 227) !important;
+  background-color: #ffffff !important;
 }
 
 [data-theme="light"] .text-ink {

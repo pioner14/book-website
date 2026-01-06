@@ -6,6 +6,8 @@ import ReadingProgress from "../components/ReadingProgress.astro";
 import ReaderPreferences from "../components/ReaderPreferences.astro";
 import Sidebar from "../components/Sidebar.astro";
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
+// @ts-ignore
+import { pwaInfo } from "virtual:pwa-info";
 
 interface Props {
   title: string;
@@ -75,26 +77,37 @@ const pageDescription = description || "Онлайн-версия книги " +
       media="print"
       onload="this.media='all'; this.onload=null;"
     />
+    {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
   </head>
   <body
     class="bg-paper text-ink font-body transition-colors bg-body-pattern overflow-x-hidden relative"
     data-current-slug={currentSlug || ""}
   >
-    <Header lang={lang} />
-    <div class="flex min-h-screen">
-      {currentSlug && <Sidebar currentSlug={currentSlug} />}
-      {!currentSlug && <Sidebar currentSlug="main" />}
-      <main
-        class={currentSlug
-          ? "container mx-auto px-4 py-8 bg-parchment rounded-lg shadow-inner min-h-screen flex-1 w-full ml-0 lg:ml-64"
-          : "container mx-auto px-4 py-8 bg-parchment rounded-lg shadow-inner min-h-screen"}
-      >
-        <slot />
-      </main>
-    </div>
-    <Footer lang={lang} />
     <ReadingProgress />
     <ReaderPreferences />
+    <Header lang={lang} />
+
+    <div class="min-h-[calc(100vh-73px)] relative flex">
+      {currentSlug && <Sidebar currentSlug={currentSlug} />}
+      {!currentSlug && <Sidebar currentSlug="main" />}
+
+      <!-- Спейсер для фиксированной боковой панели на десктопе -->
+      <div class="hidden lg:block w-64 flex-shrink-0"></div>
+
+      <div
+        class="flex-1 flex flex-col transition-all duration-300 w-full min-w-0"
+      >
+        <main
+          class="flex-1 container mx-auto px-4 py-8 bg-paper rounded-lg shadow-inner mt-4 mb-8"
+        >
+          <slot />
+        </main>
+        <Footer lang={lang} />
+      </div>
+
+      <!-- Правый спейсер для симметрии и центрирования контента -->
+      <div class="hidden lg:block w-64 flex-shrink-0"></div>
+    </div>
 
     {
       currentSlug && currentSlug !== "main" && (
@@ -160,16 +173,20 @@ const pageDescription = description || "Онлайн-версия книги " +
 
         // Функция для открытия боковой панели
         function openSidebar() {
-          sidebar.classList.remove("-translate-x-full");
-          overlay.classList.remove("hidden");
-          document.body.classList.add("overflow-hidden");
+          if (sidebar && overlay) {
+            sidebar.classList.remove("-translate-x-full");
+            overlay.classList.remove("hidden");
+            document.body.classList.add("overflow-hidden");
+          }
         }
 
         // Функция для закрытия боковой панели
         function closeSidebar() {
-          sidebar.classList.add("-translate-x-full");
-          overlay.classList.add("hidden");
-          document.body.classList.remove("overflow-hidden");
+          if (sidebar && overlay) {
+            sidebar.classList.add("-translate-x-full");
+            overlay.classList.add("hidden");
+            document.body.classList.remove("overflow-hidden");
+          }
         }
 
         // Закрытие боковой панели при клике на оверлей

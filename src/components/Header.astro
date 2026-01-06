@@ -1,23 +1,98 @@
 ---
-import { useTranslations } from '../i18n/utils';
+import { useTranslations } from "../i18n/utils";
 
 interface Props {
-  lang: 'ru' | 'ua' | 'fr';
+    lang: "ru" | "ua" | "fr";
 }
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
-<header class="bg-parchment text-ink shadow-md border-b border-accent/20">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-        <button id="open-sidebar" class="lg:hidden text-ink hover:text-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </button>
-        <a href="/" class="text-3xl font-heading font-bold text-ink hover:text-accent transition-colors tracking-wide text-center flex-1 text-center">
-            {t('header.book_title')}
+
+<header
+    class="bg-parchment text-ink shadow-md border-b border-accent/20 sticky top-0 z-50"
+>
+    <div
+        class="container mx-auto px-4 py-4 flex justify-between items-center relative"
+    >
+        <div class="w-10"></div>
+        <!-- Spacer to replace the menu button -->
+
+        <a
+            href="/"
+            class="text-2xl sm:text-3xl font-heading font-bold text-ink hover:text-accent transition-colors tracking-wide text-center flex-1 mx-4"
+        >
+            {t("header.book_title")}
         </a>
-        <div class="w-6"></div> <!-- Пустой элемент для баланса с кнопкой меню -->
+
+        <div class="flex items-center space-x-2">
+            <button
+                id="install-pwa"
+                class="hidden bg-accent/10 hover:bg-accent/20 text-accent border border-accent/30 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center space-x-1"
+                title={t("header.install_pwa")}
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                    ></path>
+                </svg>
+                <span class="hidden md:inline">{t("header.install_pwa")}</span>
+            </button>
+            <div class="w-8 lg:hidden"></div>
+            <!-- Баланс для мобильного меню -->
+        </div>
     </div>
 </header>
+
+<script>
+    let deferredPrompt: any;
+    const installBtn = document.getElementById("install-pwa");
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+        console.log("beforeinstallprompt event fired");
+        // Предотвращаем автоматическое появление окна установки в Chrome 67 и более ранних версиях
+        e.preventDefault();
+        // Сохраняем событие, чтобы вызвать его позже
+        deferredPrompt = e;
+        // Показываем кнопку установки
+        if (installBtn) {
+            installBtn.classList.remove("hidden");
+        }
+    });
+
+    if (installBtn) {
+        installBtn.addEventListener("click", async () => {
+            console.log("Install button clicked");
+            if (!deferredPrompt) {
+                console.log("No deferredPrompt available");
+                return;
+            }
+            // Показываем окно установки
+            deferredPrompt.prompt();
+            // Ждем ответа пользователя
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response to the install prompt: ${outcome}`);
+            // Событие можно использовать только один раз
+            deferredPrompt = null;
+            // Скрываем кнопку
+            installBtn.classList.add("hidden");
+        });
+    }
+
+    window.addEventListener("appinstalled", () => {
+        // Логика после успешной установки
+        console.log("PWA was installed");
+        if (installBtn) {
+            installBtn.classList.add("hidden");
+        }
+    });
+</script>

@@ -21,5 +21,6 @@
   "reader.bookmark_save": "Enregistrer la position actuelle",
   "reader.continue_reading": "Continuer la lecture",
   "reader.bookmark_remove": "Supprimer le signet",
-  "reader.continue_from": "Continuer à partir de"
+  "reader.continue_from": "Continuer à partir de",
+  "header.install_pwa": "Télécharger pour lire hors ligne"
 }

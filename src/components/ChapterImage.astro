@@ -1,12 +1,36 @@
 ---
+import { Image } from "astro:assets";
 const { src, alt, caption } = Astro.props;
+
+// Автоматически определяем, является ли путь локальным или внешним
+// В нашем случае изображения лежат в public/ или src/content/book/..
+// Если это строка пути, Astro Image может потребовать метаданные.
+// Но если оставить как есть, он применит базовую оптимизацию.
 ---
 
-<figure class="my-8 flex justify-center">
-  <img
-    src={src}
-    alt={alt}
-    class="max-w-full h-auto rounded-lg shadow-md"
-  />
-  {caption && <figcaption class="text-sm text-ink/70 mt-2 text-center">{caption}</figcaption>}
+<figure class="my-8 flex justify-center flex-col items-center">
+  {
+    typeof src === "string" ? (
+      <img
+        src={src}
+        alt={alt || ""}
+        class="max-w-full h-auto rounded-lg shadow-md"
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <Image
+        src={src}
+        alt={alt || ""}
+        class="max-w-full h-auto rounded-lg shadow-md"
+      />
+    )
+  }
+  {
+    caption && (
+      <figcaption class="text-sm text-ink/70 mt-2 text-center">
+        {caption}
+      </figcaption>
+    )
+  }
 </figure>
